@@ -4,6 +4,9 @@ public final class ChallongeAuthorization {
     private String clientId, clientSecret, refreshToken;
 
     public ChallongeAuthorization(String clientId, String clientSecret, String refreshToken) {
+        assert clientId != null : "clientId is null";
+        assert clientSecret != null : "clientSecret is null";
+        assert refreshToken != null : "refreshToken is null";
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.refreshToken = refreshToken;
