@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": [
+        "challonge-api-v2/src",
+        ""
+    ],
+    "java.project.referencedLibraries": [
+        "challonge-api-v2\\lib\\*.jar"
+    ]
+}
