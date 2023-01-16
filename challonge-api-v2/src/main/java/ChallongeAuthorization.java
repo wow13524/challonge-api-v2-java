@@ -5,41 +5,74 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.URI;
+import java.util.HashMap;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 public final class ChallongeAuthorization {
-    private final String clientId, clientSecret, redirectUri;
-    private String refreshToken;
-    private FileReader reader;
-    private FileWriter writer;
+    private final HashMap<String, String> data;
+    private final File file;
 
-    public ChallongeAuthorization(File authFile) {
-        try {
-            this.reader = new FileReader(authFile);
-            this.writer = new FileWriter(authFile);
-        }
-        catch (FileNotFoundException e) {
-            //TODO error handling for FileNotFoundException
-        }
-        catch (IOException e) {
-            //TODO error handling for IOException
-        }
+    private void assertField(String field) {
+        System.out.println(field + " " + this.data.get(field));
+        assert this.data.get(field) instanceof String :
+        String.format(
+                "%s: field '%s' must be a string",
+                this.file.getName(),
+                field
+            );
+    }
 
-        JSONObject data = (JSONObject)JSONValue.parse(reader);
-        Object clientId = data.get("client_id");
-        Object clientSecret = data.get("client_secret");
-        Object redirectUri = data.get("redirect_uri");
-        Object refreshToken = data.get("refresh_token");
-        assert clientId instanceof String : "client_id must be a String";
-        assert clientSecret instanceof String : "client_secret must be a String";
-        assert redirectUri instanceof String : "redirect_uri must be a String";
-        assert refreshToken instanceof String : "refresh_token must be a String";
+    @SuppressWarnings("unchecked")
+    public ChallongeAuthorization(File authFile) throws FileNotFoundException, IOException {
+        this.file = authFile;
 
-        this.clientId = (String)clientId;
-        this.clientSecret = (String)clientSecret;
-        this.redirectUri = (String)redirectUri;
-        this.refreshToken = (String)refreshToken;
+        FileReader reader = new FileReader(this.file);
+
+        this.data = (HashMap<String, String>)JSONValue.parse(reader);
+
+        this.assertField("client_id");
+        this.assertField("client_secret");
+        this.assertField("redirect_uri");
+        this.assertField("refresh_token");
+    }
+
+    public ChallongeAuthorization(String authFilePath) throws FileNotFoundException, IOException {
+        this(new File(authFilePath));
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getAccessToken(HttpClient client) throws IOException, InterruptedException {
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("refresh_token", this.data.get("refresh_token"));
+        body.put("client_id", this.data.get("client_id"));
+        body.put("grant_type", "refresh_token");
+        body.put("redirect_uri", this.data.get("redirect_uri"));
+
+        HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create("https://api.challonge.com/oauth/token"))
+        .header("Content-Type", "application/x-www-form-urlencoded")
+        .POST(HttpRequest.BodyPublishers.ofString(EncodeUtils.encodeFormBody(body)))
+        .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HashMap<String, String> parsed = (HashMap<String, String>)JSONValue.parse(response.body());
+
+        System.out.println(parsed);
+        String accessToken = parsed.get("access_token");
+        String refreshToken = parsed.get("refresh_token");
+        assert accessToken != null : "Failed to retrieve access token";
+        assert refreshToken != null : "Failed to retrieve refresh token";
+
+        this.data.put("refresh_token", refreshToken);
+        FileWriter writer = new FileWriter(this.file);
+        JSONObject.writeJSONString(this.data, writer);
+        writer.close();
+
+        return accessToken;
     }
 }
