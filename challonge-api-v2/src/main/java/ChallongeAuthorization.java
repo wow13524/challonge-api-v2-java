@@ -17,18 +17,19 @@ public final class ChallongeAuthorization {
     private final HashMap<String, String> data;
     private final File file;
 
-    private void assertField(String field) {
-        System.out.println(field + " " + this.data.get(field));
-        assert this.data.get(field) instanceof String :
-        String.format(
+    private void assertField(String field) throws IllegalArgumentException {
+        if (this.data.get(field) == null) {
+            System.out.println(field + " " + this.data.get(field));
+            throw new IllegalArgumentException(String.format(
                 "%s: field '%s' must be a string",
                 this.file.getName(),
                 field
-            );
+            ));
+        }
     }
 
     @SuppressWarnings("unchecked")
-    public ChallongeAuthorization(File authFile) throws FileNotFoundException, IOException {
+    public ChallongeAuthorization(File authFile) throws FileNotFoundException, IllegalArgumentException, IOException {
         this.file = authFile;
 
         FileReader reader = new FileReader(this.file);
@@ -62,7 +63,6 @@ public final class ChallongeAuthorization {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         HashMap<String, String> parsed = (HashMap<String, String>)JSONValue.parse(response.body());
 
-        System.out.println(parsed);
         String accessToken = parsed.get("access_token");
         String refreshToken = parsed.get("refresh_token");
         assert accessToken != null : "Failed to retrieve access token";
