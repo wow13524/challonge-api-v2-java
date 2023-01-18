@@ -10,26 +10,29 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URI;
 import java.util.HashMap;
+
+import javax.lang.model.type.NullType;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import main.java.Exceptions.MalformedAuthException;
+import main.java.Exceptions.MissingTokenException;
 
 public final class ChallongeAuthorization {
     private final HashMap<String, String> data;
     private final File file;
 
-    private void assertField(String field) throws IllegalArgumentException {
-        if (this.data.get(field) == null) {
-            System.out.println(field + " " + this.data.get(field));
-            throw new IllegalArgumentException(String.format(
-                "%s: field '%s' must be a string",
-                this.file.getName(),
-                field
-            ));
+    private void assertField(String field) throws MalformedAuthException {
+        Object value = this.data.get(field);
+        if (value == null || !(value instanceof String)) {
+            Class<?> valueClass = value == null ? NullType.class : value.getClass();
+            throw new MalformedAuthException(this.file.getName(), field, String.class, valueClass);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public ChallongeAuthorization(File authFile) throws FileNotFoundException, IllegalArgumentException, IOException {
+    public ChallongeAuthorization(File authFile) throws FileNotFoundException, MalformedAuthException, IOException {
         this.file = authFile;
 
         FileReader reader = new FileReader(this.file);
@@ -42,12 +45,12 @@ public final class ChallongeAuthorization {
         this.assertField("refresh_token");
     }
 
-    public ChallongeAuthorization(String authFilePath) throws FileNotFoundException, IOException {
+    public ChallongeAuthorization(String authFilePath) throws FileNotFoundException, MalformedAuthException, IOException {
         this(new File(authFilePath));
     }
 
     @SuppressWarnings("unchecked")
-    public String getAccessToken(HttpClient client) throws IOException, InterruptedException {
+    public String getAccessToken(HttpClient client) throws IOException, InterruptedException, MissingTokenException {
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("refresh_token", this.data.get("refresh_token"));
         body.put("client_id", this.data.get("client_id"));
@@ -65,8 +68,10 @@ public final class ChallongeAuthorization {
 
         String accessToken = parsed.get("access_token");
         String refreshToken = parsed.get("refresh_token");
-        assert accessToken != null : "Failed to retrieve access token";
-        assert refreshToken != null : "Failed to retrieve refresh token";
+
+        if (accessToken == null || refreshToken == null) {
+            throw new MissingTokenException();
+        }
 
         this.data.put("refresh_token", refreshToken);
         FileWriter writer = new FileWriter(this.file);
