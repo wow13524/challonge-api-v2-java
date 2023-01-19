@@ -6,9 +6,6 @@ import java.net.http.HttpClient;
 import main.java.Exceptions.MissingTokenException;
 
 public class ChallongeClient {
-    private static final String GRANT_REDIRECT_URI = "";
-    private static final String GRANT_REQUEST_URI = "https://api.challonge.com/oauth/authorize?scope=%s&client_id=%s&redirect_uri=%s&response_type=code";
-
     private ChallongeAuthorization auth;
     private HttpClient client;
     private String accessToken;
