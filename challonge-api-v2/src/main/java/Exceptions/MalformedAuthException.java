@@ -6,8 +6,8 @@ public class MalformedAuthException extends Exception {
             "%s: expected '%s' to be of type '%s', got '%s'",
             fileName,
             fieldName,
-            expectedClass.getName(),
-            valueClass.getName()
+            expectedClass.getSimpleName(),
+            valueClass.getSimpleName()
         ));
     }
 }

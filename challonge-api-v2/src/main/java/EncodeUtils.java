@@ -3,10 +3,10 @@ package main.java;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Objects;
 
-public class EncodeUtils {
+class EncodeUtils {
     private static String percentEncodeString(String raw) {
-        assert raw != null : "raw is null";
         String output = "";
         for (char c : raw.toCharArray()) {
             if (c == ' ') {
@@ -25,7 +25,7 @@ public class EncodeUtils {
     }
 
     public static String encodeFormBody(HashMap<String, String> body) {
-        assert body != null : "body is null";
+        Objects.requireNonNull(body, "body is null");
         ArrayList<String> keyValuePairs = new ArrayList<String>(body.size());
         for (Entry<String, String> kv : body.entrySet()) {
             keyValuePairs.add(
