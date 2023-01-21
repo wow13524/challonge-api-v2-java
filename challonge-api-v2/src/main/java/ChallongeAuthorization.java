@@ -19,9 +19,10 @@ import org.json.simple.JSONValue;
 import main.java.Exceptions.MalformedAuthException;
 import main.java.Exceptions.MissingTokenException;
 
-public final class ChallongeAuthorization {
+final class ChallongeAuthorization {
     private final HashMap<String, String> data;
     private final File file;
+    private String access_token;
 
     private void assertField(String field) throws MalformedAuthException {
         Object value = this.data.get(field);
@@ -45,12 +46,15 @@ public final class ChallongeAuthorization {
         this.assertField("refresh_token");
     }
 
-    public ChallongeAuthorization(String authFilePath) throws FileNotFoundException, MalformedAuthException, IOException {
-        this(new File(authFilePath));
+    private void addAuthorizationHeader(HttpRequest.Builder request) {
+        request.header(
+            "Authorization",
+            String.format("Bearer %s", this.access_token)
+        );
     }
 
     @SuppressWarnings("unchecked")
-    public String getAccessToken(HttpClient client) throws IOException, InterruptedException, MissingTokenException {
+    private void refreshAccessToken(HttpClient client) throws IOException, InterruptedException, MissingTokenException {
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("refresh_token", this.data.get("refresh_token"));
         body.put("client_id", this.data.get("client_id"));
@@ -78,6 +82,6 @@ public final class ChallongeAuthorization {
         JSONObject.writeJSONString(this.data, writer);
         writer.close();
 
-        return accessToken;
+        this.access_token = accessToken;
     }
 }
