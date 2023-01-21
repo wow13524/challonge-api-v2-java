@@ -20,9 +20,11 @@ import main.java.Exceptions.MalformedAuthException;
 import main.java.Exceptions.MissingTokenException;
 
 final class ChallongeAuthorization {
+    private final HttpClient client;
     private final HashMap<String, String> data;
     private final File file;
     private String access_token;
+    private long token_expires_at;
 
     private void assertField(String field) throws MalformedAuthException {
         Object value = this.data.get(field);
@@ -34,7 +36,10 @@ final class ChallongeAuthorization {
 
     @SuppressWarnings("unchecked")
     public ChallongeAuthorization(File authFile) throws FileNotFoundException, MalformedAuthException, IOException {
+        this.client = HttpClient.newHttpClient();
         this.file = authFile;
+        this.access_token = null;
+        this.token_expires_at = -1;
 
         FileReader reader = new FileReader(this.file);
 
@@ -46,7 +51,10 @@ final class ChallongeAuthorization {
         this.assertField("refresh_token");
     }
 
-    private void addAuthorizationHeader(HttpRequest.Builder request) {
+    private void addAuthorizationHeader(HttpRequest.Builder request) throws IOException, InterruptedException, MissingTokenException {
+        if (System.currentTimeMillis() / 1000 > this.token_expires_at) {
+            refreshAccessToken();
+        }
         request.header(
             "Authorization",
             String.format("Bearer %s", this.access_token)
@@ -54,7 +62,7 @@ final class ChallongeAuthorization {
     }
 
     @SuppressWarnings("unchecked")
-    private void refreshAccessToken(HttpClient client) throws IOException, InterruptedException, MissingTokenException {
+    private void refreshAccessToken() throws IOException, InterruptedException, MissingTokenException {
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("refresh_token", this.data.get("refresh_token"));
         body.put("client_id", this.data.get("client_id"));
@@ -67,7 +75,7 @@ final class ChallongeAuthorization {
         .POST(HttpRequest.BodyPublishers.ofString(EncodeUtils.encodeFormBody(body)))
         .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = this.client.send(request, HttpResponse.BodyHandlers.ofString());
         HashMap<String, String> parsed = (HashMap<String, String>)JSONValue.parse(response.body());
 
         String accessToken = parsed.get("access_token");
