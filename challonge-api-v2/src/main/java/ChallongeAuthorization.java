@@ -10,13 +10,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URI;
 import java.util.HashMap;
-
-import javax.lang.model.type.NullType;
-
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-
-import main.java.Exceptions.MalformedAuthException;
+import main.java.Exceptions.UnexpectedTypeException;
 import main.java.Exceptions.MissingTokenException;
 
 final class ChallongeAuthorization {
@@ -26,16 +22,8 @@ final class ChallongeAuthorization {
     private String access_token;
     private long token_expires_at;
 
-    private void assertField(String field) throws MalformedAuthException {
-        Object value = this.data.get(field);
-        if (value == null || !(value instanceof String)) {
-            Class<?> valueClass = value == null ? NullType.class : value.getClass();
-            throw new MalformedAuthException(this.file.getName(), field, String.class, valueClass);
-        }
-    }
-
     @SuppressWarnings("unchecked")
-    public ChallongeAuthorization(File authFile) throws FileNotFoundException, MalformedAuthException, IOException {
+    public ChallongeAuthorization(File authFile) throws FileNotFoundException, UnexpectedTypeException, IOException {
         this.client = HttpClient.newHttpClient();
         this.file = authFile;
         this.access_token = null;
@@ -45,13 +33,13 @@ final class ChallongeAuthorization {
 
         this.data = (HashMap<String, String>)JSONValue.parse(reader);
 
-        this.assertField("client_id");
-        this.assertField("client_secret");
-        this.assertField("redirect_uri");
-        this.assertField("refresh_token");
+        TypeUtils.requireType(this.data.get("client_id"), String.class);
+        TypeUtils.requireType(this.data.get("client_secret"), String.class);
+        TypeUtils.requireType(this.data.get("redirect_uri"), String.class);
+        TypeUtils.requireType(this.data.get("refresh_token"), String.class);
     }
 
-    private void addAuthorizationHeader(HttpRequest.Builder request) throws IOException, InterruptedException, MissingTokenException {
+    public void addAuthorizationHeader(HttpRequest.Builder request) throws IOException, InterruptedException, MissingTokenException, UnexpectedTypeException {
         if (System.currentTimeMillis() / 1000 > this.token_expires_at) {
             refreshAccessToken();
         }
@@ -61,8 +49,7 @@ final class ChallongeAuthorization {
         );
     }
 
-    @SuppressWarnings("unchecked")
-    private void refreshAccessToken() throws IOException, InterruptedException, MissingTokenException {
+    private void refreshAccessToken() throws IOException, InterruptedException, MissingTokenException, UnexpectedTypeException {
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("refresh_token", this.data.get("refresh_token"));
         body.put("client_id", this.data.get("client_id"));
@@ -76,10 +63,11 @@ final class ChallongeAuthorization {
         .build();
 
         HttpResponse<String> response = this.client.send(request, HttpResponse.BodyHandlers.ofString());
-        HashMap<String, String> parsed = (HashMap<String, String>)JSONValue.parse(response.body());
+        JSONObject parsed = (JSONObject)JSONValue.parse(response.body());
 
-        String accessToken = parsed.get("access_token");
-        String refreshToken = parsed.get("refresh_token");
+        String accessToken = TypeUtils.requireType(parsed.get("access_token"), String.class);
+        String refreshToken = TypeUtils.requireType(parsed.get("refresh_token"), String.class);
+        int expires_in = TypeUtils.requireType(parsed.get("expires_in"), Integer.class);
 
         if (accessToken == null || refreshToken == null) {
             throw new MissingTokenException();
@@ -91,5 +79,6 @@ final class ChallongeAuthorization {
         writer.close();
 
         this.access_token = accessToken;
+        this.token_expires_at = System.currentTimeMillis() / 1000 + expires_in;
     }
 }
