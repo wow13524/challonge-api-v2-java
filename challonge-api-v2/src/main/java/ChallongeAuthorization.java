@@ -39,17 +39,17 @@ final class ChallongeAuthorization {
         TypeUtils.requireType(this.data.get("refresh_token"), String.class);
     }
 
-    public void addAuthorizationHeader(HttpRequest.Builder request) throws IOException, InterruptedException, MissingTokenException, UnexpectedTypeException {
+    public HttpRequest.Builder addAuthorizationHeader(HttpRequest.Builder request) throws IOException, InterruptedException, MissingTokenException {
         if (System.currentTimeMillis() / 1000 > this.token_expires_at) {
             refreshAccessToken();
         }
-        request.header(
-            "Authorization",
-            String.format("Bearer %s", this.access_token)
-        );
+        return request.header("Authorization", String.format("Bearer %s", this.access_token))
+        .header("Authorization-Type", "v2")
+        .header("Content-Type", "application/vnd.api+json")
+        .header("Accept", "application/json");
     }
 
-    private void refreshAccessToken() throws IOException, InterruptedException, MissingTokenException, UnexpectedTypeException {
+    private void refreshAccessToken() throws IOException, InterruptedException, MissingTokenException {
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("refresh_token", this.data.get("refresh_token"));
         body.put("client_id", this.data.get("client_id"));
@@ -65,20 +65,21 @@ final class ChallongeAuthorization {
         HttpResponse<String> response = this.client.send(request, HttpResponse.BodyHandlers.ofString());
         JSONObject parsed = (JSONObject)JSONValue.parse(response.body());
 
-        String accessToken = TypeUtils.requireType(parsed.get("access_token"), String.class);
-        String refreshToken = TypeUtils.requireType(parsed.get("refresh_token"), String.class);
-        int expires_in = TypeUtils.requireType(parsed.get("expires_in"), Integer.class);
-
-        if (accessToken == null || refreshToken == null) {
+        try {
+            String accessToken = TypeUtils.requireType(parsed.get("access_token"), String.class);
+            String refreshToken = TypeUtils.requireType(parsed.get("refresh_token"), String.class);
+            long expires_in = TypeUtils.requireType(parsed.get("expires_in"), Long.class);
+    
+            this.data.put("refresh_token", refreshToken);
+            FileWriter writer = new FileWriter(this.file);
+            JSONObject.writeJSONString(this.data, writer);
+            writer.close();
+    
+            this.access_token = accessToken;
+            this.token_expires_at = System.currentTimeMillis() / 1000 + expires_in;
+        }
+        catch (UnexpectedTypeException e) {
             throw new MissingTokenException();
         }
-
-        this.data.put("refresh_token", refreshToken);
-        FileWriter writer = new FileWriter(this.file);
-        JSONObject.writeJSONString(this.data, writer);
-        writer.close();
-
-        this.access_token = accessToken;
-        this.token_expires_at = System.currentTimeMillis() / 1000 + expires_in;
     }
 }

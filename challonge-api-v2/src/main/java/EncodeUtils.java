@@ -25,7 +25,6 @@ class EncodeUtils {
     }
 
     public static String encodeFormBody(HashMap<String, String> body) {
-        Objects.requireNonNull(body, "body is null");
         ArrayList<String> keyValuePairs = new ArrayList<String>(body.size());
         for (Entry<String, String> kv : body.entrySet()) {
             keyValuePairs.add(
