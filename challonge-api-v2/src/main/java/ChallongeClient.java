@@ -8,6 +8,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Objects;
 
+import org.json.simple.parser.ParseException;
+
 import main.java.Exceptions.UnexpectedTypeException;
 import main.java.Exceptions.MissingTokenException;
 
@@ -25,13 +27,13 @@ public class ChallongeClient {
         return URI.create(endpoint + ".json");
     }
 
-    public ChallongeClient(File authFile) throws IOException, InterruptedException, UnexpectedTypeException, MissingTokenException {
+    public ChallongeClient(File authFile) throws IOException, ParseException, UnexpectedTypeException {
         Objects.requireNonNull(authFile, "auth is null");
         this.auth = new ChallongeAuthorization(authFile);
         this.client = HttpClient.newHttpClient();
     }
 
-    public ChallongeClient(String authFilePath) throws IOException, InterruptedException, UnexpectedTypeException, MissingTokenException {
+    public ChallongeClient(String authFilePath) throws IOException, ParseException, UnexpectedTypeException {
         this(new File(authFilePath));
     }
 

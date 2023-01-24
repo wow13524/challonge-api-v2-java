@@ -11,7 +11,9 @@ import java.net.http.HttpResponse;
 import java.net.URI;
 import java.util.HashMap;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import main.java.Exceptions.UnexpectedTypeException;
 import main.java.Exceptions.MissingTokenException;
 
@@ -23,7 +25,7 @@ final class ChallongeAuthorization {
     private long token_expires_at;
 
     @SuppressWarnings("unchecked")
-    public ChallongeAuthorization(File authFile) throws FileNotFoundException, UnexpectedTypeException, IOException {
+    public ChallongeAuthorization(File authFile) throws IOException, ParseException, UnexpectedTypeException {
         this.client = HttpClient.newHttpClient();
         this.file = authFile;
         this.access_token = null;
@@ -31,12 +33,12 @@ final class ChallongeAuthorization {
 
         FileReader reader = new FileReader(this.file);
 
-        this.data = (HashMap<String, String>)JSONValue.parse(reader);
+        this.data = (HashMap<String, String>)(new JSONParser()).parse(reader);
 
-        TypeUtils.requireType(this.data.get("client_id"), String.class);
-        TypeUtils.requireType(this.data.get("client_secret"), String.class);
-        TypeUtils.requireType(this.data.get("redirect_uri"), String.class);
-        TypeUtils.requireType(this.data.get("refresh_token"), String.class);
+        TypeUtils.requireType(this.data.get("client_id"), String.class, "client_id");
+        TypeUtils.requireType(this.data.get("client_secret"), String.class, "client_secret");
+        TypeUtils.requireType(this.data.get("redirect_uri"), String.class, "redirect_uri");
+        TypeUtils.requireType(this.data.get("refresh_token"), String.class, "refresh_token");
     }
 
     public HttpRequest.Builder addAuthorizationHeader(HttpRequest.Builder request) throws IOException, InterruptedException, MissingTokenException {
@@ -63,9 +65,10 @@ final class ChallongeAuthorization {
         .build();
 
         HttpResponse<String> response = this.client.send(request, HttpResponse.BodyHandlers.ofString());
-        JSONObject parsed = (JSONObject)JSONValue.parse(response.body());
 
         try {
+            JSONObject parsed = (JSONObject)(new JSONParser()).parse(response.body());
+
             String accessToken = TypeUtils.requireType(parsed.get("access_token"), String.class);
             String refreshToken = TypeUtils.requireType(parsed.get("refresh_token"), String.class);
             long expires_in = TypeUtils.requireType(parsed.get("expires_in"), Long.class);
@@ -78,7 +81,7 @@ final class ChallongeAuthorization {
             this.access_token = accessToken;
             this.token_expires_at = System.currentTimeMillis() / 1000 + expires_in;
         }
-        catch (UnexpectedTypeException e) {
+        catch (ParseException | UnexpectedTypeException e) {
             throw new MissingTokenException();
         }
     }
