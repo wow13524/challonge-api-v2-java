@@ -68,6 +68,8 @@ final class ChallongeAuthorization {
         try {
             JSONObject parsed = (JSONObject)(new JSONParser()).parse(response.body());
 
+            System.out.println(new Scope((String)parsed.get("scope")));
+
             String accessToken = TypeUtils.requireType(parsed.get("access_token"), String.class);
             String refreshToken = TypeUtils.requireType(parsed.get("refresh_token"), String.class);
             long expires_in = TypeUtils.requireType(parsed.get("expires_in"), Long.class);
