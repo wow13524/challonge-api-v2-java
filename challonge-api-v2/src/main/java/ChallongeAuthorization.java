@@ -40,14 +40,22 @@ final class ChallongeAuthorization {
         TypeUtils.requireType(this.data.get("refresh_token"), String.class, "refresh_token");
     }
 
-    public HttpRequest.Builder addAuthorizationHeader(HttpRequest.Builder request) throws IOException, InterruptedException, MissingTokenException {
+    private HttpRequest.Builder newRequest() throws IOException, InterruptedException, MissingTokenException {
         if (System.currentTimeMillis() / 1000 > this.token_expires_at) {
             refreshAccessToken();
         }
-        return request.header("Authorization", String.format("Bearer %s", this.access_token))
+        return HttpRequest.newBuilder().header("Authorization", String.format("Bearer %s", this.access_token))
         .header("Authorization-Type", "v2")
         .header("Content-Type", "application/vnd.api+json")
         .header("Accept", "application/json");
+    }
+
+    public HttpResponse<String> apiGet(URI uri) throws IOException, InterruptedException, MissingTokenException {
+        HttpRequest request = newRequest()
+        .uri(uri)
+        .build();
+
+        return this.client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     private void refreshAccessToken() throws IOException, InterruptedException, MissingTokenException {
