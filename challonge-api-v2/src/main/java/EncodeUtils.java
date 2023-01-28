@@ -1,8 +1,7 @@
 package main.java;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.Map;
 
 class EncodeUtils {
     private static String percentEncodeString(String raw) {
@@ -23,9 +22,9 @@ class EncodeUtils {
         return output;
     }
 
-    public static String encodeFormBody(HashMap<String, String> body) {
+    public static String encodeFormBody(Map<String, String> body) {
         ArrayList<String> keyValuePairs = new ArrayList<String>(body.size());
-        for (Entry<String, String> kv : body.entrySet()) {
+        for (Map.Entry<String, String> kv : body.entrySet()) {
             keyValuePairs.add(
                 percentEncodeString(kv.getKey())
                 + "="
