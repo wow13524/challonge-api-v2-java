@@ -22,7 +22,7 @@ public class ChallongeClient {
         this(new File(authFilePath));
     }
 
-    public void tournaments() throws IOException, InterruptedException, MissingTokenException {
-        
+    public void tournaments() throws IOException, InterruptedException, ParseException, MissingTokenException {
+        System.out.println(this.api.apiGet(ChallongeApi.toURI("tournaments")));
     }
 }
