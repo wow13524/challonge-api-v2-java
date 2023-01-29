@@ -13,7 +13,7 @@ import main.java.Exceptions.MissingTokenException;
 public class ChallongeClient {
     private static final String API_ENDPOINT = "https://api.challonge.com/v2";
 
-    private ChallongeAuthorization auth;
+    private ChallongeAuthorizationOld auth;
 
     private static URI apiUri(String... path) {
         String endpoint = API_ENDPOINT;
@@ -25,7 +25,7 @@ public class ChallongeClient {
 
     public ChallongeClient(File authFile) throws IOException, ParseException, UnexpectedTypeException {
         Objects.requireNonNull(authFile, "auth is null");
-        this.auth = new ChallongeAuthorization(authFile);
+        this.auth = new ChallongeAuthorizationOld(authFile);
     }
 
     public ChallongeClient(String authFilePath) throws IOException, ParseException, UnexpectedTypeException {
