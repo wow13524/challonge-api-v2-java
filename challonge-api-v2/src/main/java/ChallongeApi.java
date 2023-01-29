@@ -19,7 +19,7 @@ public class ChallongeApi {
     private static final String API_ENDPOINT = "https://api.challonge.com/v2";
     private static final String REFRESH_TOKEN_ENDPOINT = "https://api.challonge.com/oauth/token";
 
-    private final ChallongeAuthorizationNew auth;
+    private final ChallongeAuthorization auth;
     private final HttpClient httpClient;
     private final JSONParser jsonParser;
     public final Scope scope;
@@ -27,15 +27,23 @@ public class ChallongeApi {
     private String access_token;
     private long token_expires_at;
 
+    public static URI toURI(String... path) {
+        String endpoint = API_ENDPOINT;
+        for (String x: path) {
+            endpoint += "/" + x;
+        }
+        return URI.create(endpoint + ".json");
+    }
+
     public ChallongeApi(File authFile) throws IOException, MissingTokenException, ParseException, UnexpectedTypeException {
-        TypeUtils.requireType(authFile, ChallongeAuthorizationNew.class, "authFile");
-        this.auth = new ChallongeAuthorizationNew(authFile);
+        TypeUtils.requireType(authFile, File.class, "authFile");
+        this.auth = new ChallongeAuthorization(authFile);
         this.httpClient = HttpClient.newHttpClient();
         this.jsonParser = new JSONParser();
 
         JSONObject rawRequest = this.rawRefreshTokenRequest();
         this.rawParseRefreshTokenResponse(rawRequest);
-        
+
         this.scope = new Scope(TypeUtils.requireType(rawRequest.get("scope"), String.class, "scope"));
     }
 

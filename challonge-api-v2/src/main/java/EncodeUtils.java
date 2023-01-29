@@ -3,7 +3,9 @@ package main.java;
 import java.util.ArrayList;
 import java.util.Map;
 
-class EncodeUtils {
+final class EncodeUtils {
+    private EncodeUtils() {};
+
     private static String percentEncodeString(String raw) {
         String output = "";
         for (char c : raw.toCharArray()) {

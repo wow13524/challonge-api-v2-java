@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class ImmutableMap<T, U> extends AbstractMap<T, U> {
+final class ImmutableMap<T, U> extends AbstractMap<T, U> {
     private final Set<Entry<T, U>> entrySet;
 
     @SafeVarargs

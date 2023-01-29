@@ -16,7 +16,6 @@ final class Scope {
         communitiesManage;
     
     public Scope(String raw) {
-        System.out.println(raw);
         ArrayList<String> scopes = new ArrayList<String>(Arrays.asList(raw.split(" ")));
         this.me = scopes.indexOf("me") != -1;
         this.tournamentsRead = scopes.indexOf("tournaments:read") != -1;

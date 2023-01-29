@@ -11,13 +11,13 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import main.java.Exceptions.UnexpectedTypeException;
 
-final class ChallongeAuthorizationNew {
+final class ChallongeAuthorization {
     private final File file;
     private final Map.Entry<String, String> refresh_token;
     private final Map<String, String> fileSaveBody;
     public final Map<String, String> refreshRequestBody;
 
-    public ChallongeAuthorizationNew(File authFile) throws IOException, ParseException, UnexpectedTypeException {
+    public ChallongeAuthorization(File authFile) throws IOException, ParseException, UnexpectedTypeException {
         this.file = authFile;
 
         JSONObject data = (JSONObject)(new JSONParser()).parse(new FileReader(this.file));
@@ -84,9 +84,11 @@ final class ChallongeAuthorizationNew {
         );
         this.refresh_token.setValue(refresh_token);
 
+        FileWriter writer = new FileWriter(this.file);
         JSONObject.writeJSONString(
             this.fileSaveBody,
-            new FileWriter(this.file)
+            writer
         );
+        writer.close();
     }
 }

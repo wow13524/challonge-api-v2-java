@@ -3,7 +3,9 @@ package main.java;
 import javax.lang.model.type.NullType;
 import main.java.Exceptions.UnexpectedTypeException;
 
-class TypeUtils {
+final class TypeUtils {
+    private TypeUtils() {};
+
     private static Class<?> getClass(Object obj) {
         return obj == null ? NullType.class : obj.getClass();
     }
