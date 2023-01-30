@@ -3,8 +3,23 @@ package main.java;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+final record ScopeField(String name) {}
+
 final class Scope {
-    public final boolean me,
+    public static final ScopeField
+        ME = new ScopeField("me"),
+        TOURNAMENTS_READ = new ScopeField("tournaments:read"),
+        TOURNAMENTS_WRITE = new ScopeField("tournaments:write"),
+        MATCHES_READ = new ScopeField("matches:read"),
+        MATCHES_WRITE = new ScopeField("matches:write"),
+        PARTICIPANTS_READ = new ScopeField("participants:read"),
+        PARTICIPANTS_WRITE = new ScopeField("participants:write"),
+        ATTACHMENTS_READ = new ScopeField("attachments:read"),
+        ATTACHMENTS_WRITE = new ScopeField("attachments:write"),
+        COMMUNITIES_MANAGE = new ScopeField("communities:manage");
+
+    public final boolean
+        me,
         tournamentsRead,
         tournamentsWrite,
         matchesRead,
