@@ -18,7 +18,7 @@ import main.java.Exceptions.FailedRequestException;
 import main.java.Exceptions.MissingTokenException;
 import main.java.Exceptions.UnexpectedResponseException;
 
-public class ChallongeApi {
+final class ChallongeApi {
     private static final String API_ENDPOINT = "https://api.challonge.com/v2";
     private static final String REFRESH_TOKEN_ENDPOINT = "https://api.challonge.com/oauth/token";
 
