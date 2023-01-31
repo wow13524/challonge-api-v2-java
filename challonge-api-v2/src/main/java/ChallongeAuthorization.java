@@ -9,7 +9,9 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import main.java.Exceptions.UnexpectedTypeException;
+
+import main.java.Exceptions.AuthIOException;
+import main.java.Exceptions.ChallongeException;
 
 final class ChallongeAuthorization {
     private final File file;
@@ -17,10 +19,17 @@ final class ChallongeAuthorization {
     private final Map<String, String> fileSaveBody;
     public final Map<String, String> refreshRequestBody;
 
-    public ChallongeAuthorization(File authFile) throws IOException, ParseException, UnexpectedTypeException {
+    public ChallongeAuthorization(File authFile) throws ChallongeException {
         this.file = authFile;
 
-        JSONObject data = (JSONObject)(new JSONParser()).parse(new FileReader(this.file));
+        JSONObject data;
+        try {
+            data = 
+            (JSONObject)(new JSONParser()).parse(new FileReader(this.file));
+        }
+        catch (IOException | ParseException e) {
+            throw new AuthIOException(e);
+        }
 
         Map.Entry<String, String> client_id =
         new AbstractMap.SimpleImmutableEntry<String, String>(
@@ -76,7 +85,7 @@ final class ChallongeAuthorization {
         );
     }
 
-    public void updateRefreshToken(String refresh_token) throws IOException, UnexpectedTypeException {
+    public void updateRefreshToken(String refresh_token) throws ChallongeException {
         TypeUtils.requireType(
             refresh_token,
             String.class,
@@ -84,11 +93,16 @@ final class ChallongeAuthorization {
         );
         this.refresh_token.setValue(refresh_token);
 
-        FileWriter writer = new FileWriter(this.file);
-        JSONObject.writeJSONString(
-            this.fileSaveBody,
-            writer
-        );
-        writer.close();
+        try {
+            FileWriter writer = new FileWriter(this.file);
+            JSONObject.writeJSONString(
+                this.fileSaveBody,
+                writer
+            );
+            writer.close();
+        }
+        catch (IOException e) {
+            throw new AuthIOException(e);
+        }
     }
 }

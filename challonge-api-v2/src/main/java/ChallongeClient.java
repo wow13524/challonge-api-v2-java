@@ -1,23 +1,18 @@
 package main.java;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.json.simple.parser.ParseException;
-
-import main.java.Exceptions.UnexpectedTypeException;
-import main.java.Exceptions.MissingTokenException;
-import main.java.Exceptions.PermissionsScopeException;
+import main.java.Exceptions.ChallongeException;
 
 public class ChallongeClient {
     private ChallongeApi api;
 
-    public ChallongeClient(File authFile) throws IOException, MissingTokenException, ParseException, UnexpectedTypeException {
+    public ChallongeClient(File authFile) throws ChallongeException {
         TypeUtils.requireType(authFile, File.class,"authFile");
         this.api = new ChallongeApi(authFile);
     }
 
-    public ChallongeClient(String authFilePath) throws IOException, MissingTokenException, ParseException, UnexpectedTypeException {
+    public ChallongeClient(String authFilePath) throws ChallongeException {
         this(
             new File(
                 TypeUtils.requireType(
@@ -29,7 +24,7 @@ public class ChallongeClient {
         );
     }
 
-    public void tournaments() throws IOException, InterruptedException, ParseException, PermissionsScopeException, MissingTokenException {
+    public void tournaments() throws ChallongeException {
         this.api.scope.requirePermissionScope(Scope.TOURNAMENTS_READ);
         System.out.println(this.api.apiGet(ChallongeApi.toURI("tournaments")));
     }

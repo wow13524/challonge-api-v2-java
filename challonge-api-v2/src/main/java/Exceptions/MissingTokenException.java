@@ -1,7 +1,7 @@
 package main.java.Exceptions;
 
-public class MissingTokenException extends Exception {
-    public MissingTokenException() {
-        super("Failed to retrieve tokens from API");
+public class MissingTokenException extends ChallongeException {
+    public MissingTokenException(Throwable cause) {
+        super("Failed to retrieve tokens from API", cause);
     }
 }
