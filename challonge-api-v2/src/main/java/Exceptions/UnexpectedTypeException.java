@@ -1,6 +1,6 @@
 package main.java.Exceptions;
 
-public class UnexpectedTypeException extends Exception {
+public class UnexpectedTypeException extends ChallongeException {
     public <T,U> UnexpectedTypeException(Class<T> expectedClass, Class<U> valueClass) {
         super(String.format(
             "expected type '%s', got '%s'",
