@@ -24,6 +24,11 @@ public class ChallongeClient {
         );
     }
 
+    public void me() throws ChallongeException {
+        this.api.scope.requirePermissionScope(Scope.ME);
+        System.out.println(this.api.apiGet(ChallongeApi.toURI("me")));
+    }
+
     public void tournaments() throws ChallongeException {
         this.api.scope.requirePermissionScope(Scope.TOURNAMENTS_READ);
         System.out.println(this.api.apiGet(ChallongeApi.toURI("tournaments")));
