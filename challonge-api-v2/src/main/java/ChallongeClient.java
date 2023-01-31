@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 
 import main.java.Exceptions.UnexpectedTypeException;
 import main.java.Exceptions.MissingTokenException;
+import main.java.Exceptions.PermissionsScopeException;
 
 public class ChallongeClient {
     private ChallongeApi api;
@@ -22,7 +23,8 @@ public class ChallongeClient {
         this(new File(authFilePath));
     }
 
-    public void tournaments() throws IOException, InterruptedException, ParseException, MissingTokenException {
+    public void tournaments() throws IOException, InterruptedException, ParseException, PermissionsScopeException, MissingTokenException {
+        this.api.scope.requirePermissionScope(Scope.TOURNAMENTS_READ);
         System.out.println(this.api.apiGet(ChallongeApi.toURI("tournaments")));
     }
 }

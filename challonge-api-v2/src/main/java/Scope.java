@@ -2,6 +2,10 @@ package main.java;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+
+import main.java.Exceptions.PermissionsScopeException;
 
 final record ScopeField(String name) {}
 
@@ -18,46 +22,74 @@ final class Scope {
         ATTACHMENTS_WRITE = new ScopeField("attachments:write"),
         COMMUNITIES_MANAGE = new ScopeField("communities:manage");
 
-    public final boolean
-        me,
-        tournamentsRead,
-        tournamentsWrite,
-        matchesRead,
-        matchesWrite,
-        participantsRead,
-        participantsWrite,
-        attachmentsRead,
-        attachmentsWrite,
-        communitiesManage;
+    public final LinkedHashMap<ScopeField, Boolean> scopes;
     
     public Scope(String raw) {
-        ArrayList<String> scopes = new ArrayList<String>(Arrays.asList(raw.split(" ")));
-        this.me = scopes.indexOf("me") != -1;
-        this.tournamentsRead = scopes.indexOf("tournaments:read") != -1;
-        this.tournamentsWrite = scopes.indexOf("tournaments:write") != -1;
-        this.matchesRead = scopes.indexOf("matches:read") != -1;
-        this.matchesWrite = scopes.indexOf("matches:write") != -1;
-        this.participantsRead = scopes.indexOf("participants:read") != -1;
-        this.participantsWrite = scopes.indexOf("participants:write") != -1;
-        this.attachmentsRead = scopes.indexOf("attachments:read") != -1;
-        this.attachmentsWrite = scopes.indexOf("attachments:write") != -1;
-        this.communitiesManage = scopes.indexOf("communities:manage") != -1;
+        ArrayList<String> scopes =
+        new ArrayList<String>(Arrays.asList(raw.split(" ")));
+
+        this.scopes = new LinkedHashMap<ScopeField, Boolean>();
+
+        this.scopes.put(
+            ME,
+            scopes.indexOf(ME.name()) != -1
+        );
+        this.scopes.put(
+            TOURNAMENTS_READ,
+            scopes.indexOf(TOURNAMENTS_READ.name()) != -1
+        );
+        this.scopes.put(
+            TOURNAMENTS_WRITE,
+            scopes.indexOf(TOURNAMENTS_WRITE.name()) != -1
+        );
+        this.scopes.put(
+            MATCHES_READ,
+            scopes.indexOf(MATCHES_READ.name()) != -1
+        );
+        this.scopes.put(
+            MATCHES_WRITE,
+            scopes.indexOf(MATCHES_WRITE.name()) != -1
+        );
+        this.scopes.put(
+            PARTICIPANTS_READ,
+            scopes.indexOf(PARTICIPANTS_READ.name()) != -1
+        );
+        this.scopes.put(
+            PARTICIPANTS_WRITE,
+            scopes.indexOf(PARTICIPANTS_WRITE.name()) != -1
+        );
+        this.scopes.put(
+            ATTACHMENTS_READ,
+            scopes.indexOf(ATTACHMENTS_READ.name()) != -1
+        );
+        this.scopes.put(
+            ATTACHMENTS_WRITE,
+            scopes.indexOf(ATTACHMENTS_WRITE.name()) != -1
+        );
+        this.scopes.put(
+            COMMUNITIES_MANAGE,
+            scopes.indexOf(COMMUNITIES_MANAGE.name()) != -1
+        );
+    }
+
+    public void requirePermissionScope(ScopeField scope) throws PermissionsScopeException {
+        if (!this.scopes.get(scope)) {
+            throw new PermissionsScopeException(scope.name());
+        }
     }
     
     @Override
     public String toString() {
         ArrayList<String> scopes = new ArrayList<String>();
-        if (this.me) scopes.add("me");
-        if (this.tournamentsRead) scopes.add("tournaments:read");
-        if (this.tournamentsWrite) scopes.add("tournaments:write");
-        if (this.matchesRead) scopes.add("matches:read");
-        if (this.matchesWrite) scopes.add("matches:write");
-        if (this.participantsRead) scopes.add("participants:read");
-        if (this.participantsWrite) scopes.add("participants:write");
-        if (this.attachmentsRead) scopes.add("attachments:read");
-        if (this.attachmentsWrite) scopes.add("attachments:write");
-        if (this.communitiesManage) scopes.add("communities:manage");
+        for (Entry<ScopeField, Boolean> scope : this.scopes.entrySet()) {
+            if (scope.getValue()) {
+                scopes.add(scope.getKey().name());
+            }
+        }
         
-        return String.format("Scope[%s]", String.join(", ", scopes));
+        return String.format(
+            "Scope[%s]",
+            String.join(", ", scopes)
+        );
     }
 }
