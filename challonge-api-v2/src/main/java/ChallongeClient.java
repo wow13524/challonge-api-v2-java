@@ -15,12 +15,18 @@ public class ChallongeClient {
     public ChallongeClient(File authFile) throws IOException, MissingTokenException, ParseException, UnexpectedTypeException {
         TypeUtils.requireType(authFile, File.class,"authFile");
         this.api = new ChallongeApi(authFile);
-
-        System.out.println(this.api.scope);
     }
 
     public ChallongeClient(String authFilePath) throws IOException, MissingTokenException, ParseException, UnexpectedTypeException {
-        this(new File(authFilePath));
+        this(
+            new File(
+                TypeUtils.requireType(
+                    authFilePath,
+                    String.class,
+                    "authFilePath"
+                )
+            )
+        );
     }
 
     public void tournaments() throws IOException, InterruptedException, ParseException, PermissionsScopeException, MissingTokenException {
