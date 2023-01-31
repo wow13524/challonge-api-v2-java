@@ -8,7 +8,7 @@ public class ChallongeClient {
     private ChallongeApi api;
 
     public ChallongeClient(File authFile) throws ChallongeException {
-        TypeUtils.requireType(authFile, File.class,"authFile");
+        TypeUtils.requireType(authFile, File.class, "authFile");
         this.api = new ChallongeApi(authFile);
     }
 
