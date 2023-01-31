@@ -24,8 +24,9 @@ final class ChallongeAuthorization {
 
         JSONObject data;
         try {
-            data = 
-            (JSONObject)(new JSONParser()).parse(new FileReader(this.file));
+            FileReader reader = new FileReader(this.file);
+            data = (JSONObject)(new JSONParser()).parse(reader);
+            reader.close();
         }
         catch (IOException | ParseException e) {
             throw new AuthIOException(e);
