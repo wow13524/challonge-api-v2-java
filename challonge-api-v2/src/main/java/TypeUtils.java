@@ -18,9 +18,25 @@ final class TypeUtils {
         return (T)obj;
     }
 
+    public static <T> T requireOptionalType(Object obj, Class<T> type) throws UnexpectedTypeException {
+        if (obj != null) {
+            return requireType(obj, type);
+        }
+        return null;
+    }
+
     public static <T> T requireType(Object obj, Class<T> type, String name) throws UnexpectedTypeException {
         try {
             return requireType(obj, type);
+        }
+        catch (UnexpectedTypeException e) {
+            throw new UnexpectedTypeException(type, getClass(obj), name);
+        }
+    }
+
+    public static <T> T requireOptionalType(Object obj, Class<T> type, String name) throws UnexpectedTypeException {
+        try {
+            return requireOptionalType(obj, type);
         }
         catch (UnexpectedTypeException e) {
             throw new UnexpectedTypeException(type, getClass(obj), name);

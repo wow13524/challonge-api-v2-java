@@ -2,6 +2,8 @@ package main.java;
 
 import java.io.File;
 
+import org.json.simple.JSONObject;
+
 import main.java.Exceptions.ChallongeException;
 
 public class ChallongeClient {
@@ -24,9 +26,13 @@ public class ChallongeClient {
         );
     }
 
-    public void me() throws ChallongeException {
+    public ChallongeUser me() throws ChallongeException {
         this.api.scope.requirePermissionScope(Scope.ME);
-        System.out.println(this.api.apiGet(ChallongeApi.toURI("me")));
+        return new ChallongeUser(TypeUtils.requireType(
+            this.api.apiGet(ChallongeApi.toURI("me")).get("data"),
+            JSONObject.class,
+            "data"
+        ));
     }
 
     public void tournaments() throws ChallongeException {
