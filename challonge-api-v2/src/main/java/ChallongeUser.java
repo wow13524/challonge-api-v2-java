@@ -9,39 +9,19 @@ public class ChallongeUser extends ChallongeObject {
 
     ChallongeUser(JSONObject json) throws ChallongeException {
         super(
-            TypeUtils.requireType(
-                json.get("id"),
-                String.class,
-                "id"
-            ),
-            TypeUtils.requireType(
-                json.get("type"),
-                String.class,
-                "type"
-            )
+            TypeUtils.requireType(json, "id", String.class),
+            TypeUtils.requireType(json, "type", String.class)
         );
 
-        JSONObject attributes = TypeUtils.requireType(
-            json.get("attributes"),
-            JSONObject.class,
-            "attributes"
-        );
-        
-        this.imageUrl = TypeUtils.requireType(
-            attributes.get("imageUrl"),
-            String.class,
-            "imageUrl"
-        );
-        this.email = TypeUtils.requireOptionalType(
-            attributes.get("email"),
-            String.class,
-            "email"
-        );
-        this.username = TypeUtils.requireType(
-            attributes.get("username"),
-            String.class,
-            "username"
-        );
+        JSONObject attributes =
+        TypeUtils.requireType(json, "attributes", JSONObject.class);
+
+        this.imageUrl =
+        TypeUtils.requireType(attributes, "imageUrl", String.class);
+        this.email = 
+        TypeUtils.requireOptionalType(attributes, "email", String.class);
+        this.username = 
+        TypeUtils.requireType(attributes, "username", String.class);
     }
 
     @Override

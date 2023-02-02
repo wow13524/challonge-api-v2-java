@@ -48,13 +48,7 @@ final class ChallongeApi {
         this.rawParseRefreshTokenResponse(rawRequest);
 
         this.scope =
-        new Scope(
-            TypeUtils.requireType(
-                rawRequest.get("scope"),
-                String.class,
-                "scope"
-            )
-        );
+        new Scope(TypeUtils.requireType(rawRequest,"scope",String.class));
     }
 
     private JSONObject rawRefreshTokenRequest() throws ChallongeException {
@@ -81,9 +75,9 @@ final class ChallongeApi {
         long expires_in;
 
         try {
-            accessToken = TypeUtils.requireType(response.get("access_token"), String.class);
-            refreshToken = TypeUtils.requireType(response.get("refresh_token"), String.class);
-            expires_in = TypeUtils.requireType(response.get("expires_in"), Long.class);
+            accessToken = TypeUtils.requireType(response, "access_token", String.class);
+            refreshToken = TypeUtils.requireType(response, "refresh_token", String.class);
+            expires_in = TypeUtils.requireType(response, "expires_in", Long.class);
         }
         catch (UnexpectedTypeException e) {
             throw new MissingTokenException(e);

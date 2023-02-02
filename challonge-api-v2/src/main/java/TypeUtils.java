@@ -1,6 +1,9 @@
 package main.java;
 
 import javax.lang.model.type.NullType;
+
+import org.json.simple.JSONObject;
+
 import main.java.Exceptions.UnexpectedTypeException;
 
 final class TypeUtils {
@@ -40,6 +43,24 @@ final class TypeUtils {
         }
         catch (UnexpectedTypeException e) {
             throw new UnexpectedTypeException(type, getClass(obj), name);
+        }
+    }
+
+    public static <T> T requireType(JSONObject obj, String field, Class<T> type) throws UnexpectedTypeException {
+        try {
+            return requireType(obj.get(field), type);
+        }
+        catch (UnexpectedTypeException e) {
+            throw new UnexpectedTypeException(type, getClass(obj), field);
+        }
+    }
+
+    public static <T> T requireOptionalType(JSONObject obj, String field, Class<T> type) throws UnexpectedTypeException {
+        try {
+            return requireOptionalType(obj.get(field), type);
+        }
+        catch (UnexpectedTypeException e) {
+            throw new UnexpectedTypeException(type, getClass(obj), field);
         }
     }
 }

@@ -35,38 +35,22 @@ final class ChallongeAuthorization {
         Map.Entry<String, String> client_id =
         new AbstractMap.SimpleImmutableEntry<String, String>(
             "client_id",
-            TypeUtils.requireType(
-                data.get("client_id"),
-                String.class,
-                "client_id"
-            )
+            TypeUtils.requireType(data, "client_id",String.class)
         );
         Map.Entry<String, String> client_secret =
         new AbstractMap.SimpleImmutableEntry<String, String>(
             "client_secret",
-            TypeUtils.requireType(
-                data.get("client_secret"),
-                String.class,
-                "client_secret"
-            )
+            TypeUtils.requireType(data, "client_secret", String.class)
         );
         Map.Entry<String, String> redirect_uri =
         new AbstractMap.SimpleImmutableEntry<String, String>(
             "redirect_uri",
-            TypeUtils.requireType(
-                data.get("redirect_uri"),
-                String.class,
-                "redirect_uri"
-            )
+            TypeUtils.requireType(data, "redirect_uri", String.class)
         );
         this.refresh_token =
         new AbstractMap.SimpleEntry<String, String>(
             "refresh_token",
-            TypeUtils.requireType(
-                data.get("refresh_token"),
-                String.class,
-                "refresh_token"
-            )
+            TypeUtils.requireType(data, "refresh_token", String.class)
         );
 
         this.fileSaveBody = new ImmutableMap<String, String>(
