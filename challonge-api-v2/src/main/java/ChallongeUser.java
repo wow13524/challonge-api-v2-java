@@ -20,11 +20,13 @@ public class ChallongeUser extends ChallongeObject {
                 "type"
             )
         );
+
         JSONObject attributes = TypeUtils.requireType(
             json.get("attributes"),
             JSONObject.class,
             "attributes"
         );
+        
         this.imageUrl = TypeUtils.requireType(
             attributes.get("imageUrl"),
             String.class,
