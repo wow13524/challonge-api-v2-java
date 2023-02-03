@@ -28,7 +28,7 @@ public class ChallongeClient {
         );
     }
 
-    public ChallongeUser me() throws ChallongeException {
+    public ChallongeUser getMe() throws ChallongeException {
         this.api.scope.requirePermissionScope(Scope.ME);
         return new ChallongeUser(TypeUtils.requireType(
             this.api.apiGet(ChallongeApi.toURI("me")),
@@ -37,7 +37,7 @@ public class ChallongeClient {
         ));
     }
 
-    public ChallongeTournament[] tournaments() throws ChallongeException {
+    public ChallongeTournament[] getAllTournaments() throws ChallongeException {
         this.api.scope.requirePermissionScope(Scope.TOURNAMENTS_READ);
         JSONObject response = this.api.apiGet(ChallongeApi.toURI("tournaments"));
         JSONObject meta =
@@ -72,5 +72,14 @@ public class ChallongeClient {
         }
 
         return tournaments;
+    }
+
+    public ChallongeTournament getTournament(String tournamentId) throws ChallongeException {
+        TypeUtils.requireType(tournamentId, String.class, "tournamentId");
+        JSONObject response =
+        this.api.apiGet(ChallongeApi.toURI("tournaments", tournamentId));
+        JSONObject data =
+        TypeUtils.requireType(response, "data", JSONObject.class);
+        return new ChallongeTournament(data);
     }
 }

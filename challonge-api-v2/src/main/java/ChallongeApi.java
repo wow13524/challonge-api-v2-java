@@ -108,11 +108,12 @@ final class ChallongeApi {
     private JSONObject sendAndParseApiRequest(HttpRequest request) throws ChallongeException {
         try {
             HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            return 
-            TypeUtils.requireType(
+            JSONObject parsedReponse = TypeUtils.requireType(
                 this.jsonParser.parse(response.body()),
                 JSONObject.class
             );
+            System.out.println(parsedReponse);
+            return parsedReponse;
         }
         catch (IOException | InterruptedException e) {
             throw new FailedRequestException(e);

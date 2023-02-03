@@ -46,18 +46,20 @@ final class TypeUtils {
         }
     }
 
-    public static <T> T requireType(JSONObject obj, String field, Class<T> type) throws UnexpectedTypeException {
+    public static <T> T requireType(JSONObject jobj, String field, Class<T> type) throws UnexpectedTypeException {
+        Object obj = jobj.get(field);
         try {
-            return requireType(obj.get(field), type);
+            return requireType(obj, type);
         }
         catch (UnexpectedTypeException e) {
             throw new UnexpectedTypeException(type, getClass(obj), field);
         }
     }
 
-    public static <T> T requireOptionalType(JSONObject obj, String field, Class<T> type) throws UnexpectedTypeException {
+    public static <T> T requireOptionalType(JSONObject jobj, String field, Class<T> type) throws UnexpectedTypeException {
+        Object obj = jobj.get(field);
         try {
-            return requireOptionalType(obj.get(field), type);
+            return requireOptionalType(obj, type);
         }
         catch (UnexpectedTypeException e) {
             throw new UnexpectedTypeException(type, getClass(obj), field);
