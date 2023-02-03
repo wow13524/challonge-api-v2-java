@@ -13,6 +13,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import main.java.Exceptions.UnexpectedTypeException;
+import main.java.Exceptions.ApiException;
 import main.java.Exceptions.ChallongeException;
 import main.java.Exceptions.FailedRequestException;
 import main.java.Exceptions.MissingTokenException;
@@ -113,6 +114,15 @@ final class ChallongeApi {
                 JSONObject.class
             );
             System.out.println(parsedReponse);
+
+            if (parsedReponse.containsKey("errors")) {
+                throw new ApiException(TypeUtils.requireType(
+                    parsedReponse,
+                    "errors",
+                    JSONObject.class
+                ));
+            }
+
             return parsedReponse;
         }
         catch (IOException | InterruptedException e) {
