@@ -26,7 +26,7 @@ final class ChallongeApi {
     private final ChallongeAuthorization auth;
     private final HttpClient httpClient;
     private final JSONParser jsonParser;
-    public final Scope scope;
+    public final Scopes scopes;
 
     private String access_token;
     private long token_expires_at;
@@ -48,8 +48,8 @@ final class ChallongeApi {
         JSONObject rawRequest = this.rawRefreshTokenRequest();
         this.rawParseRefreshTokenResponse(rawRequest);
 
-        this.scope =
-        new Scope(TypeUtils.requireType(rawRequest,"scope",String.class));
+        this.scopes =
+        new Scopes(TypeUtils.requireType(rawRequest,"scope",String.class));
     }
 
     private JSONObject rawRefreshTokenRequest() throws ChallongeException {

@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 
 import main.java.Exceptions.ChallongeException;
 
-public class ChallongeUser extends ChallongeObject {
+public final class ChallongeUser extends ChallongeObject {
     public final String imageUrl, email, username;
 
     ChallongeUser(JSONObject json) throws ChallongeException {
