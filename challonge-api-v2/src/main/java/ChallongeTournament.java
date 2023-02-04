@@ -24,7 +24,8 @@ public class ChallongeTournament extends ChallongeObject {
 
         String tournamentType = 
         TypeUtils.requireType(attributes, "tournamentType", String.class);
-        this.tournamentType = TournamentType.fromString(tournamentType);
+        this.tournamentType =
+        EnumUtils.valueFromString(TournamentType.class, tournamentType);
     }
 
     public String getName() {

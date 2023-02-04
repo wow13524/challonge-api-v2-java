@@ -13,18 +13,6 @@ public enum TournamentType {
         this.name = name;
     }
 
-    public static TournamentType fromString(String name) {
-        for (TournamentType type : TournamentType.values()) {
-            if (type.name.equals(name)) {
-                return type;
-            }
-        }
-        throw new IllegalArgumentException(String.format(
-            "No TournamentType with name '%s'",
-            name
-        ));
-    }
-
     @Override
     public String toString() {
         return this.name;

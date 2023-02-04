@@ -1,17 +1,19 @@
 package main.java;
 
 public class ChallongeObject {
-    private final String id, type;
+    private final String id;
+    private final ChallongeObjectType type;
     ChallongeObject(String id, String type) {
         this.id = id;
-        this.type = type;
+        this.type =
+        EnumUtils.valueFromString(ChallongeObjectType.class, type);
     }
 
     public String getId() {
         return this.id;
     }
 
-    public String getType() {
+    public ChallongeObjectType getType() {
         return this.type;
     }
 
