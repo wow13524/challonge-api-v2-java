@@ -3,7 +3,6 @@ package main.java;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import main.java.Exceptions.PermissionsScopeException;
 
