@@ -36,7 +36,7 @@ final class Scopes {
         }
         
         return String.format(
-            "Scope[%s]",
+            "Scopes[%s]",
             String.join(", ", scopes)
         );
     }
