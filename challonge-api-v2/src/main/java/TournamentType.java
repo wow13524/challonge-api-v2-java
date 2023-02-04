@@ -1,11 +1,17 @@
 package main.java;
 
 public enum TournamentType {
-    SINGLE_ELIMINATION("Single Elimination"),
-    DOUBLE_ELIMINATION("Double Elimination"),
-    ROUND_ROBIN("Round Robin"),
-    SWISS("Swiss"),
-    FREE_FOR_ALL("Free For All");
+    SINGLE_ELIMINATION("single elimination"),
+    DOUBLE_ELIMINATION("double elimination"),
+    ROUND_ROBIN("round robin"),
+    SWISS("swiss"),
+    FREE_FOR_ALL("free for all"),
+    LEADERBOARD("leaderboard"),
+    TIME_TRIAL("time trial"),
+    SINGLE_RACE("sincle race"),
+    LGC_TIMETRIAL("lgc timetrial"),
+    GRAND_PRIX("grand_prix"),
+    LEAGUE("league");
 
     public final String name;
 

@@ -5,10 +5,11 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public final class ChallongeUser extends ChallongeObject {
-    private final String imageUrl, email, username;
+    protected final String imageUrl, email, username;
 
-    ChallongeUser(JSONObject json) throws ChallongeException {
+    ChallongeUser(ChallongeApi api, JSONObject json) throws ChallongeException {
         super(
+            api,
             TypeUtils.requireType(json, "id", String.class),
             TypeUtils.requireType(json, "type", String.class)
         );

@@ -1,8 +1,8 @@
 package main.java;
 
 public enum ChallongeObjectType {
-    TOURNAMENT("Tournament"),
-    USER("User");
+    TOURNAMENT("tournament"),
+    USER("user");
 
     public final String name;
 

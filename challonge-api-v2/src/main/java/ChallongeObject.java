@@ -1,9 +1,12 @@
 package main.java;
 
 public class ChallongeObject {
+    protected final ChallongeApi api;
     private final String id;
     private final ChallongeObjectType type;
-    ChallongeObject(String id, String type) {
+
+    ChallongeObject(ChallongeApi api, String id, String type) {
+        this.api = api;
         this.id = id;
         this.type =
         EnumUtils.valueFromString(ChallongeObjectType.class, type);

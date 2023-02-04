@@ -9,8 +9,8 @@ public enum Scope {
     PARTICIPANTS_READ("participants:read"),
     PARTICIPANTS_WRITE("participants:write"),
     ATTACHMENTS_READ("attachments:read"),
-    ATTACHMENTS_WRITE("attachments:write"),
-    COMMUNITIES_MANAGE("communities:manage");
+    ATTACHMENTS_WRITE("attachments:write");
+    //COMMUNITIES_MANAGE("communities:manage"); #Does not appear to be a valid scope although listed in documentation
 
     public final String name;
 

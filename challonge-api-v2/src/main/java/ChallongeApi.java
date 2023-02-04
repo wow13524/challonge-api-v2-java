@@ -6,6 +6,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublisher;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.util.Map;
 import java.net.URI;
 
 import org.json.simple.JSONObject;
@@ -113,6 +115,8 @@ final class ChallongeApi {
                 this.jsonParser.parse(response.body()),
                 JSONObject.class
             );
+
+            System.out.println(request.uri());
             System.out.println(parsedReponse);
 
             if (parsedReponse.containsKey("errors")) {
@@ -142,10 +146,19 @@ final class ChallongeApi {
         return sendAndParseApiRequest(request);
     }
 
-    public JSONObject apiPost(URI uri, BodyPublisher body) throws ChallongeException {
+    public JSONObject apiPost(URI uri, Map<String, Object> body) throws ChallongeException {
         HttpRequest request = newRequest()
         .uri(uri)
-        .POST(body)
+        .POST(BodyPublishers.ofString(JSONObject.toJSONString(body)))
+        .build();
+
+        return sendAndParseApiRequest(request);
+    }
+
+    public JSONObject apiPut(URI uri, Map<String, Object> body) throws ChallongeException {
+        HttpRequest request = newRequest()
+        .uri(uri)
+        .PUT(BodyPublishers.ofString(JSONObject.toJSONString(body)))
         .build();
 
         return sendAndParseApiRequest(request);

@@ -30,11 +30,14 @@ public class ChallongeClient {
 
     public ChallongeUser getMe() throws ChallongeException {
         this.api.scopes.requirePermissionScope(Scope.ME);
-        return new ChallongeUser(TypeUtils.requireType(
-            this.api.apiGet(ChallongeApi.toURI("me")),
-            "data",
-            JSONObject.class
-        ));
+        return new ChallongeUser(
+            this.api,
+            TypeUtils.requireType(
+                this.api.apiGet(ChallongeApi.toURI("me")),
+                "data",
+                JSONObject.class
+            )
+        );
     }
 
     public ChallongeTournament[] getAllTournaments() throws ChallongeException {
@@ -55,7 +58,7 @@ public class ChallongeClient {
             for (Object raw : data) {
                 JSONObject tournament = 
                 TypeUtils.requireType(raw, JSONObject.class);
-                tournaments[i++] = new ChallongeTournament(tournament);
+                tournaments[i++] = new ChallongeTournament(this.api, tournament);
             }
 
             if (i < count) {
@@ -80,6 +83,6 @@ public class ChallongeClient {
         this.api.apiGet(ChallongeApi.toURI("tournaments", tournamentId));
         JSONObject data =
         TypeUtils.requireType(response, "data", JSONObject.class);
-        return new ChallongeTournament(data);
+        return new ChallongeTournament(this.api, data);
     }
 }
