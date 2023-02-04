@@ -5,7 +5,7 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public final class ChallongeUser extends ChallongeObject {
-    public final String imageUrl, email, username;
+    private final String imageUrl, email, username;
 
     ChallongeUser(JSONObject json) throws ChallongeException {
         super(
@@ -24,14 +24,24 @@ public final class ChallongeUser extends ChallongeObject {
         TypeUtils.requireType(attributes, "username", String.class);
     }
 
+    public String getImageUrl() {
+        return this.imageUrl;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
     @Override
     public String toString() {
         return String.format(
-            "ChallongeUser[id=%s, imageUrl=%s, email=%s, username=%s]",
-            this.id,
-            this.imageUrl,
-            this.email,
-            this.username
+            "ChallongeUser[id=%s, username=%s]",
+            this.getId(),
+            this.getUsername()
         );
     }
 }

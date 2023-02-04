@@ -1,10 +1,18 @@
 package main.java;
 
 public class ChallongeObject {
-    public final String id, type;
+    private final String id, type;
     ChallongeObject(String id, String type) {
         this.id = id;
         this.type = type;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public String getType() {
+        return this.type;
     }
 
     @Override

@@ -5,8 +5,8 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public class ChallongeTournament extends ChallongeObject {
-    public String name, url;
-    public TournamentType tournamentType;
+    private String name, url;
+    private TournamentType tournamentType;
 
     ChallongeTournament(JSONObject json) throws ChallongeException {
         super(
@@ -27,14 +27,24 @@ public class ChallongeTournament extends ChallongeObject {
         this.tournamentType = TournamentType.fromString(tournamentType);
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public String getUrl() {
+        return this.url;
+    }
+
+    public TournamentType getTournamentType() {
+        return this.tournamentType;
+    }
+
     @Override
     public String toString() {
         return String.format(
-            "ChallongeTournament[id=%s, name=%s, url=%s, type=%s]",
-            this.id,
-            this.name,
-            this.url,
-            this.tournamentType
+            "ChallongeTournament[id=%s, name=%s]",
+            this.getId(),
+            this.getName()
         );
     }
 }
