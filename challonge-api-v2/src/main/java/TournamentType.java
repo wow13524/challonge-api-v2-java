@@ -7,7 +7,7 @@ public enum TournamentType {
     DOUBLE_ELIMINATION("double elimination", DoubleEliminationOptions.class),
     ROUND_ROBIN("round robin", null),
     SWISS("swiss", null),
-    FREE_FOR_ALL("free for all", null),
+    FREE_FOR_ALL("free for all", FreeForAllOptions.class),
     LEADERBOARD("leaderboard", null),
     TIME_TRIAL("time trial", null),
     SINGLE_RACE("sincle race", null),

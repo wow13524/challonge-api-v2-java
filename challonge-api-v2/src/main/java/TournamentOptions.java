@@ -44,15 +44,25 @@ public class TournamentOptions {
     }
 
     public static final class RoundRobinOptions {
-
+        
     }
 
     public static final class SwissOptions {
 
     }
 
-    public static final class FreeForAllOptions {
-
+    public static final class FreeForAllOptions extends TournamentOptions {
+        public FreeForAllOptions(int maxParticipants) throws ChallongeException {
+            super(
+                "free_for_all_options",
+                new ImmutableMap<String, Object>(
+                    new SimpleImmutableEntry<String, Object>(
+                        "max_participants",
+                        maxParticipants
+                    )
+                )
+            );
+        }
     }
 
     private final String key;
