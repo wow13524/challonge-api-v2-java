@@ -22,13 +22,13 @@ public class TournamentOptions {
             }
         }
 
-        public DoubleEliminationOptions(boolean hideSeeds, GrandFinalsModifier grandFinalsModifier) throws ChallongeException {
+        public DoubleEliminationOptions(boolean split_participants, GrandFinalsModifier grandFinalsModifier) throws ChallongeException {
             super(
                 "double_elimination_options",
                 new ImmutableMap<String, Object>(
                     new SimpleImmutableEntry<String, Object>(
-                        "hide_seeds",
-                        hideSeeds
+                        "split_participants",
+                        split_participants
                     ),
                     new SimpleImmutableEntry<String, Object>(
                         "grand_finals_modifier",
