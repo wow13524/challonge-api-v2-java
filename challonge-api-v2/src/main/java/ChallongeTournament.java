@@ -7,6 +7,7 @@ import main.java.Exceptions.ChallongeException;
 public class ChallongeTournament extends ChallongeObject {
     private String name, url;
     private TournamentType tournamentType;
+    private TournamentOptions tournamentOptions;
 
     ChallongeTournament(ChallongeApi api, JSONObject json) throws ChallongeException {
         super(
@@ -30,7 +31,7 @@ public class ChallongeTournament extends ChallongeObject {
     }
 
     @SuppressWarnings("unchecked")
-    private void update(String name, TournamentType tournamentType) throws ChallongeException {
+    private void update(String name, TournamentType tournamentType, TournamentOptions tournamentOptions) throws ChallongeException {
         JSONObject body = new JSONObject();
         JSONObject data = new JSONObject();
         JSONObject attributes = new JSONObject();
@@ -40,11 +41,21 @@ public class ChallongeTournament extends ChallongeObject {
         data.put("attributes", attributes);
         attributes.put("name", name);
         attributes.put("tournament_type", tournamentType.name);
+        if (tournamentOptions != null) {
+            attributes.put(
+                tournamentOptions.getKey(),
+                tournamentOptions.getOptions()
+            );
+        }
         
         this.api.apiPut(
             ChallongeApi.toURI("tournaments", this.getId()),
             body
         );
+
+        this.name = name;
+        this.tournamentType = tournamentType;
+        this.tournamentOptions = tournamentOptions;
     }
 
     public void setName(String name) throws ChallongeException {
@@ -55,22 +66,33 @@ public class ChallongeTournament extends ChallongeObject {
             "name"
         );
 
-        this.update(name, this.getTournamentType());
-
-        this.name = name;
+        this.update(
+            name,
+            this.getTournamentType(),
+            this.getTournamentOptions()
+        );
     }
 
-    public void setTournamentType(TournamentType tournamentType) throws ChallongeException {
+    public void setTournamentType(TournamentType tournamentType, TournamentOptions tournamentOptions) throws ChallongeException {
         this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_WRITE);
         TypeUtils.requireType(
             tournamentType,
             TournamentType.class,
             "tournamentType"
         );
+        if (tournamentType.requiredOptions != null) {
+            TypeUtils.requireType(
+                tournamentOptions,
+                tournamentType.requiredOptions,
+                "tournamentOptions"
+            );
+        }
 
-        this.update(this.getName(), tournamentType);
-
-        this.tournamentType = tournamentType;
+        this.update(
+            this.getName(),
+            tournamentType,
+            tournamentOptions
+        );
     }
 
     public String getName() {
@@ -83,6 +105,10 @@ public class ChallongeTournament extends ChallongeObject {
 
     public TournamentType getTournamentType() {
         return this.tournamentType;
+    }
+
+    public TournamentOptions getTournamentOptions() {
+        return this.tournamentOptions;
     }
 
     @Override
