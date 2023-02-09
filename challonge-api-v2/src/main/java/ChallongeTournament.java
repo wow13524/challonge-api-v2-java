@@ -95,6 +95,11 @@ public class ChallongeTournament extends ChallongeObject {
         );
     }
 
+    public void delete() throws ChallongeException {
+        this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_WRITE);
+        this.api.apiDelete(ChallongeApi.toURI("tournaments", this.getId()));
+    }
+
     public String getName() {
         return this.name;
     }

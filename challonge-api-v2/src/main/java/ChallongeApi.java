@@ -107,15 +107,22 @@ final class ChallongeApi {
         .header("Accept", "application/json");
     }
 
-    private JSONObject sendAndParseApiRequest(HttpRequest request) throws ChallongeException {
+    private HttpResponse<String> sendApiRequest(HttpRequest request) throws ChallongeException {
         try {
-            HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(request.uri());
+            return this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        }
+        catch (IOException | InterruptedException e) {
+            throw new FailedRequestException(e);
+        }
+    }
+
+    private JSONObject parseApiResponse(HttpResponse<String> response) throws ChallongeException {
+        try {
             JSONObject parsedReponse = TypeUtils.requireType(
                 this.jsonParser.parse(response.body()),
                 JSONObject.class
             );
-
-            System.out.println(request.uri());
             System.out.println(parsedReponse);
 
             if (parsedReponse.containsKey("errors")) {
@@ -128,12 +135,22 @@ final class ChallongeApi {
 
             return parsedReponse;
         }
-        catch (IOException | InterruptedException e) {
-            throw new FailedRequestException(e);
-        }
         catch (ParseException | UnexpectedTypeException e) {
             throw new UnexpectedResponseException(e);
         }
+    }
+
+    private JSONObject sendAndParseApiRequest(HttpRequest request) throws ChallongeException {
+        return parseApiResponse(sendApiRequest(request));
+    }
+
+    public void apiDelete(URI uri) throws ChallongeException {
+        HttpRequest request = newRequest()
+        .uri(uri)
+        .DELETE()
+        .build();
+
+        sendApiRequest(request);
     }
 
     public JSONObject apiGet(URI uri) throws ChallongeException {
