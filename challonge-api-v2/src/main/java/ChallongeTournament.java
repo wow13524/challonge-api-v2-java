@@ -5,7 +5,8 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public class ChallongeTournament extends ChallongeObject {
-    private String name, url;
+    private boolean isPrivate;
+    private String description, name, url;
     private TournamentType tournamentType;
     private TournamentOptions tournamentOptions;
 
@@ -19,6 +20,10 @@ public class ChallongeTournament extends ChallongeObject {
         JSONObject attributes =
         TypeUtils.requireType(json, "attributes", JSONObject.class);
 
+        this.isPrivate =
+        TypeUtils.requireType(attributes, "private", Boolean.class);
+        this.description =
+        TypeUtils.requireType(attributes, "description", String.class);
         this.name =
         TypeUtils.requireType(attributes, "name", String.class);
         this.url = 
@@ -98,6 +103,14 @@ public class ChallongeTournament extends ChallongeObject {
     public void delete() throws ChallongeException {
         this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_WRITE);
         this.api.apiDelete(ChallongeApi.toURI("tournaments", this.getId()));
+    }
+
+    public boolean isPrivate() {
+        return this.isPrivate;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     public String getName() {
