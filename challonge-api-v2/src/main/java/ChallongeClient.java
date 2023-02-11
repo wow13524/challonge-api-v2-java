@@ -78,6 +78,7 @@ public class ChallongeClient {
     }
 
     public ChallongeTournament getTournament(String tournamentId) throws ChallongeException {
+        this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_READ);
         TypeUtils.requireType(tournamentId, String.class, "tournamentId");
         JSONObject response =
         this.api.apiGet(ChallongeApi.toURI("tournaments", tournamentId));
