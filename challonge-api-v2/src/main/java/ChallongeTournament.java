@@ -3,6 +3,8 @@ package main.java;
 import org.json.simple.JSONObject;
 
 import main.java.Exceptions.ChallongeException;
+import main.java.Exceptions.MismatchedTournamentOptionsException;
+import main.java.Exceptions.UnexpectedTypeException;
 
 public class ChallongeTournament extends ChallongeObject {
     private boolean isPrivate;
@@ -85,11 +87,16 @@ public class ChallongeTournament extends ChallongeObject {
             TournamentType.class,
             "tournamentType"
         );
-        if (tournamentType.requiredOptions != null) {
-            TypeUtils.requireType(
-                tournamentOptions,
-                tournamentType.requiredOptions,
-                "tournamentOptions"
+        TypeUtils.requireType(
+            tournamentOptions,
+            TournamentOptions.class,
+            "tournamentOptions"
+        );
+
+        if (tournamentOptions.getTournamentType() != tournamentType) {
+            throw new MismatchedTournamentOptionsException(
+                tournamentType.name(),
+                tournamentOptions.getTournamentType().name()
             );
         }
 

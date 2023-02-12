@@ -45,11 +45,11 @@ public class ChallongeClient {
         JSONObject response = this.api.apiGet(ChallongeApi.toURI("tournaments"));
         JSONObject meta =
         TypeUtils.requireType(response, "meta", JSONObject.class);
-        long count =
-        TypeUtils.requireType(meta, "count", Long.class);
+        int count =
+        (int)(long)TypeUtils.requireType(meta, "count", Long.class);
 
         ChallongeTournament[] tournaments =
-        new ChallongeTournament[(int)count];
+        new ChallongeTournament[count];
         int i = 0;
         while (true) {
             JSONArray data =

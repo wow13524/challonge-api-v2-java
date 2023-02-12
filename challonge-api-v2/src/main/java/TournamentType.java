@@ -1,26 +1,22 @@
 package main.java;
 
-import main.java.TournamentOptions.*;
-
 public enum TournamentType {
-    SINGLE_ELIMINATION("single elimination", null),
-    DOUBLE_ELIMINATION("double elimination", DoubleEliminationOptions.class),
-    ROUND_ROBIN("round robin", null),
-    SWISS("swiss", null),
-    FREE_FOR_ALL("free for all", FreeForAllOptions.class),
-    LEADERBOARD("leaderboard", null),
-    TIME_TRIAL("time trial", null),
-    SINGLE_RACE("sincle race", null),
-    LGC_TIMETRIAL("lgc timetrial", null),
-    GRAND_PRIX("grand_prix", null),
-    LEAGUE("league", null);
+    SINGLE_ELIMINATION("single elimination"),
+    DOUBLE_ELIMINATION("double elimination"),
+    ROUND_ROBIN("round robin"),
+    SWISS("swiss"),
+    FREE_FOR_ALL("free for all"),
+    LEADERBOARD("leaderboard"),
+    TIME_TRIAL("time trial"),
+    SINGLE_RACE("sincle race"),
+    LGC_TIMETRIAL("lgc timetrial"),
+    GRAND_PRIX("grand_prix"),
+    LEAGUE("league");
 
     public final String name;
-    public final Class<? extends TournamentOptions> requiredOptions;
 
-    <T extends TournamentOptions> TournamentType(String name, Class<T> requiredOptions) {
+    TournamentType(String name) {
         this.name = name;
-        this.requiredOptions = requiredOptions;
     }
 
     @Override
