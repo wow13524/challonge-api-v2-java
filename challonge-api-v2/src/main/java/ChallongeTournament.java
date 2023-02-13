@@ -39,17 +39,17 @@ public class ChallongeTournament extends ChallongeObject {
     @SuppressWarnings("unchecked")
     private JSONObject toAttributes() {
         JSONObject attributes = new JSONObject();
-        //attributes.put("name", this.getName());
-        //attributes.put("url", this.getUrl());
-        //attributes.put("tournament_type", this.getTournamentType());
-        //attributes.put("private", this.isPrivate());
+        attributes.put("name", this.getName());
+        attributes.put("url", this.getUrl());
+        attributes.put("tournament_type", this.getTournamentType().name);
+        attributes.put("private", this.isPrivate());
         //
-        //attributes.put("description", this.getDescription());
+        attributes.put("description", this.getDescription());
         //
-        //attributes.put(
-        //    this.getTournamentOptions().getKey(),
-        //    this.getTournamentOptions().getOptions()
-        //);
+        attributes.put(
+            this.getTournamentOptions().getKey(),
+            this.getTournamentOptions().getOptions()
+        );
 
         return attributes;
     }
