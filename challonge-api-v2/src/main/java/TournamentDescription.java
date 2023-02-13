@@ -3,7 +3,7 @@ package main.java;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import main.java.Exceptions.ChallongeException;
 
-public final class TournamentOptions {
+public final class TournamentDescription {
     public enum GrandFinalsModifier {
         NONE(""),
         SKIP("skip"),
@@ -25,18 +25,18 @@ public final class TournamentOptions {
     private static final boolean DEFAULT_SPLIT_PARTICIPANTS = false;
     private static final GrandFinalsModifier DEFAILT_GRAND_FINALS_MODIFIER = GrandFinalsModifier.NONE;
 
-    public static final class DoubleEliminationOptionsBuilder {
+    public static final class DoubleEliminationDescriptionBuilder {
         private boolean splitParticipants = DEFAULT_SPLIT_PARTICIPANTS;
         private GrandFinalsModifier grandFinalsModifier = DEFAILT_GRAND_FINALS_MODIFIER;
 
-        public DoubleEliminationOptionsBuilder() {}
+        public DoubleEliminationDescriptionBuilder() {}
 
-        public DoubleEliminationOptionsBuilder splitParticipants(boolean splitParticipants) throws ChallongeException {
+        public DoubleEliminationDescriptionBuilder splitParticipants(boolean splitParticipants) throws ChallongeException {
             this.splitParticipants = splitParticipants;
             return this;
         }
 
-        public DoubleEliminationOptionsBuilder grandFinalsModifier(GrandFinalsModifier grandFinalsModifier) throws ChallongeException {
+        public DoubleEliminationDescriptionBuilder grandFinalsModifier(GrandFinalsModifier grandFinalsModifier) throws ChallongeException {
             this.grandFinalsModifier =
             TypeUtils.requireType(
                 grandFinalsModifier,
@@ -46,8 +46,8 @@ public final class TournamentOptions {
             return this;
         }
 
-        public TournamentOptions build() {
-            return new TournamentOptions(
+        public TournamentDescription build() {
+            return new TournamentDescription(
                 KEY_DOUBLE_ELIMINATION_OPTIONS,
                 TournamentType.DOUBLE_ELIMINATION,
                 new ImmutableMap<String, Object>(
@@ -68,7 +68,7 @@ public final class TournamentOptions {
     private final TournamentType tournamentType;
     private final ImmutableMap<String, Object> options;
 
-    TournamentOptions(String key, TournamentType tournamentType, ImmutableMap<String, Object> options) {
+    TournamentDescription(String key, TournamentType tournamentType, ImmutableMap<String, Object> options) {
         this.key = key;
         this.tournamentType = tournamentType;
         this.options = options;

@@ -9,6 +9,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.util.Map;
 import java.net.URI;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -117,6 +118,7 @@ final class ChallongeApi {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private JSONObject parseApiResponse(HttpResponse<String> response) throws ChallongeException {
         try {
             JSONObject parsedReponse = TypeUtils.requireType(
@@ -126,11 +128,17 @@ final class ChallongeApi {
             System.out.println(parsedReponse);
 
             if (parsedReponse.containsKey("errors")) {
-                throw new ApiException(TypeUtils.requireType(
-                    parsedReponse,
-                    "errors",
-                    JSONObject.class
-                ));
+                Object errors = parsedReponse.get("errors");
+                if (errors instanceof JSONArray) {
+                    throw new ApiException((JSONArray)errors);
+                }
+                else {
+                    throw new ApiException((JSONObject)errors);
+                }
+            }
+            else if (parsedReponse.containsKey("error")) {
+                parsedReponse.put("detail", parsedReponse.get("error"));
+                throw new ApiException(parsedReponse);
             }
 
             return parsedReponse;
@@ -172,6 +180,7 @@ final class ChallongeApi {
     }
 
     public JSONObject apiPut(URI uri, Map<String, Object> body) throws ChallongeException {
+        System.out.println(body);
         HttpRequest request = newRequest()
         .uri(uri)
         .PUT(BodyPublishers.ofString(JSONObject.toJSONString(body)))
