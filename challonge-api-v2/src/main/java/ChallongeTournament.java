@@ -11,6 +11,10 @@ public class ChallongeTournament extends ChallongeObject {
     private TournamentType tournamentType;
     private TournamentDescription tournamentOptions;
 
+    /*TODO
+     * figure out how to handle tournamentType and tournamentOptions once and for all!!!
+     * In terms of parsing from the API, access through ChallongeTournament, and updating through setTournamentType()!!!
+     */
     ChallongeTournament(ChallongeApi api, JSONObject json) throws ChallongeException {
         super(
             api,
@@ -77,8 +81,15 @@ public class ChallongeTournament extends ChallongeObject {
             "name"
         );
 
-        this.name = name;
-        this.update();
+        String originalName = this.getName();
+        try {
+            this.name = name;
+            this.update();
+        }
+        catch (ChallongeException e) {
+            this.name = originalName;
+            throw e;
+        }
     }
 
     public void setTournamentType(TournamentType tournamentType, TournamentDescription tournamentOptions) throws ChallongeException {
@@ -101,9 +112,18 @@ public class ChallongeTournament extends ChallongeObject {
             );
         }
 
-        this.tournamentType = tournamentType;
-        this.tournamentOptions = tournamentOptions;
-        this.update();
+        TournamentType originalTournamentType = this.getTournamentType();
+        TournamentDescription originalTournamentOptions = this.getTournamentOptions();
+        try {
+            this.tournamentType = tournamentType;
+            this.tournamentOptions = tournamentOptions;
+            this.update();
+        }
+        catch (ChallongeException e) {
+            this.tournamentType = originalTournamentType;
+            this.tournamentOptions = originalTournamentOptions;
+            throw e;
+        }
     }
 
     public void delete() throws ChallongeException {
