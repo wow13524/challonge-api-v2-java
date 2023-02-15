@@ -14,12 +14,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import main.java.Exceptions.UnexpectedTypeException;
-import main.java.Exceptions.ApiException;
-import main.java.Exceptions.ChallongeException;
-import main.java.Exceptions.FailedRequestException;
-import main.java.Exceptions.MissingTokenException;
-import main.java.Exceptions.UnexpectedResponseException;
+import main.java.Exceptions.*;
 
 final class ChallongeApi {
     private static final String API_ENDPOINT = "https://api.challonge.com/v2";
