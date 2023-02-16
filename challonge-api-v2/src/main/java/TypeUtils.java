@@ -28,6 +28,13 @@ final class TypeUtils {
         return null;
     }
 
+    public static <T> T requireOptionalType(Object obj, Class<T> type, T defaultObj) throws UnexpectedTypeException {
+        if (obj != null) {
+            return requireType(obj, type);
+        }
+        return defaultObj;
+    }
+
     public static <T> T requireType(Object obj, Class<T> type, String name) throws UnexpectedTypeException {
         try {
             return requireType(obj, type);
@@ -40,6 +47,15 @@ final class TypeUtils {
     public static <T> T requireOptionalType(Object obj, Class<T> type, String name) throws UnexpectedTypeException {
         try {
             return requireOptionalType(obj, type);
+        }
+        catch (UnexpectedTypeException e) {
+            throw new UnexpectedTypeException(type, getClass(obj), name);
+        }
+    }
+
+    public static <T> T requireOptionalType(Object obj, Class<T> type, String name, T defaultObj) throws UnexpectedTypeException {
+        try {
+            return requireOptionalType(obj, type, defaultObj);
         }
         catch (UnexpectedTypeException e) {
             throw new UnexpectedTypeException(type, getClass(obj), name);
@@ -60,6 +76,16 @@ final class TypeUtils {
         Object obj = jobj.get(field);
         try {
             return requireOptionalType(obj, type);
+        }
+        catch (UnexpectedTypeException e) {
+            throw new UnexpectedTypeException(type, getClass(obj), field);
+        }
+    }
+
+    public static <T> T requireOptionalType(JSONObject jobj, String field, Class<T> type, T defaultObj) throws UnexpectedTypeException {
+        Object obj = jobj.get(field);
+        try {
+            return requireOptionalType(obj, type, defaultObj);
         }
         catch (UnexpectedTypeException e) {
             throw new UnexpectedTypeException(type, getClass(obj), field);
