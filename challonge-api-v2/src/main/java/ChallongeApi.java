@@ -37,7 +37,6 @@ final class ChallongeApi {
     }
 
     public ChallongeApi(File authFile) throws ChallongeException {
-        TypeUtils.requireType(authFile, File.class, "authFile");
         this.auth = new ChallongeAuthorization(authFile);
         this.httpClient = HttpClient.newHttpClient();
         this.jsonParser = new JSONParser();
