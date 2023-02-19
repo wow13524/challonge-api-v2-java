@@ -32,11 +32,7 @@ public class ChallongeClient {
         this.api.scopes.requirePermissionScope(Scope.ME);
         return new ChallongeUser(
             this.api,
-            TypeUtils.requireType(
-                this.api.apiGet(ChallongeApi.toURI("me")),
-                "data",
-                JSONObject.class
-            )
+            this.api.apiGet(ChallongeApi.toURI("me"))
         );
     }
 
