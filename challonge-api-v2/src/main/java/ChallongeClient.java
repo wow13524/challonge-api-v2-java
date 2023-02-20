@@ -36,25 +36,23 @@ public class ChallongeClient {
         );
     }
 
-    public ChallongeTournament[] getAllTournaments() throws ChallongeException {
-        this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_READ);
-        JSONObject response = this.api.apiGet(ChallongeApi.toURI("tournaments"));
+    @SuppressWarnings("unchecked")
+    private JSONObject[] depaginate(JSONObject response) throws ChallongeException {
         JSONObject meta =
         TypeUtils.requireType(response, "meta", JSONObject.class);
         int count =
         (int)(long)TypeUtils.requireType(meta, "count", Long.class);
 
-        ChallongeTournament[] tournaments =
-        new ChallongeTournament[count];
+        JSONObject[] objects = new JSONObject[count];
         int i = 0;
         while (true) {
             JSONArray data =
             TypeUtils.requireType(response, "data", JSONArray.class);
 
             for (Object raw : data) {
-                JSONObject tournament = 
+                JSONObject object = 
                 TypeUtils.requireType(raw, JSONObject.class);
-                tournaments[i++] = new ChallongeTournament(this.api, tournament);
+                objects[i++] = object;
             }
 
             if (i < count) {
@@ -68,6 +66,20 @@ public class ChallongeClient {
             else {
                 break;
             }
+        }
+
+        return objects;
+    }
+
+    public ChallongeTournament[] getAllTournaments() throws ChallongeException {
+        this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_READ);
+        JSONObject response = this.api.apiGet(ChallongeApi.toURI("tournaments"));
+        JSONObject[] rawTournaments = depaginate(response);
+        ChallongeTournament[] tournaments =
+        new ChallongeTournament[rawTournaments.length];
+
+        for (int i = 0; i < tournaments.length; i++) {
+            tournaments[i] = new ChallongeTournament(api, rawTournaments[i]);
         }
 
         return tournaments;
