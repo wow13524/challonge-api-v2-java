@@ -36,7 +36,6 @@ public class ChallongeClient {
         );
     }
 
-    @SuppressWarnings("unchecked")
     private JSONObject[] depaginate(JSONObject response) throws ChallongeException {
         JSONObject meta =
         TypeUtils.requireType(response, "meta", JSONObject.class);
