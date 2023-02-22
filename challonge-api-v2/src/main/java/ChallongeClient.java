@@ -30,19 +30,20 @@ public class ChallongeClient {
 
     public ChallongeUser getMe() throws ChallongeException {
         this.api.scopes.requirePermissionScope(Scope.ME);
-        return new ChallongeUser(
-            this.api,
-            TypeUtils.requireType(
-                this.api.apiGet(ChallongeApi.toURI("me")),
-                "data",
-                JSONObject.class
-            )
-        );
+
+        JSONObject response =
+        this.api.apiGet(ChallongeApi.toURI("me"));
+
+        JSONObject data =
+        TypeUtils.requireType(response, "data", JSONObject.class);
+
+        return new ChallongeUser(this.api, data);
     }
 
     private JSONObject[] depaginate(JSONObject response) throws ChallongeException {
         JSONObject meta =
         TypeUtils.requireType(response, "meta", JSONObject.class);
+
         int count =
         (int)(long)TypeUtils.requireType(meta, "count", Long.class);
 
@@ -55,12 +56,14 @@ public class ChallongeClient {
             for (Object raw : data) {
                 JSONObject object = 
                 TypeUtils.requireType(raw, JSONObject.class);
+
                 objects[i++] = object;
             }
 
             if (i < count) {
                 JSONObject links =
                 TypeUtils.requireType(response, "links", JSONObject.class);
+                
                 response =
                 this.api.apiGet(URI.create(
                     TypeUtils.requireType(links, "next", String.class)
@@ -76,8 +79,12 @@ public class ChallongeClient {
 
     public ChallongeTournament[] getAllTournaments() throws ChallongeException {
         this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_READ);
-        JSONObject response = this.api.apiGet(ChallongeApi.toURI("tournaments"));
+
+        JSONObject response =
+        this.api.apiGet(ChallongeApi.toURI("tournaments"));
+
         JSONObject[] rawTournaments = depaginate(response);
+
         ChallongeTournament[] tournaments =
         new ChallongeTournament[rawTournaments.length];
 
@@ -91,10 +98,13 @@ public class ChallongeClient {
     public ChallongeTournament getTournament(String tournamentId) throws ChallongeException {
         this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_READ);
         TypeUtils.requireType(tournamentId, String.class, "tournamentId");
+
         JSONObject response =
         this.api.apiGet(ChallongeApi.toURI("tournaments", tournamentId));
+
         JSONObject data =
         TypeUtils.requireType(response, "data", JSONObject.class);
+
         return new ChallongeTournament(this.api, data);
     }
 }
