@@ -27,15 +27,19 @@ public class ChallongeTournament extends ChallongeObject {
 
         this.isPrivate =
         TypeUtils.requireType(attributes, "private", Boolean.class);
+
         this.description =
         TypeUtils.requireType(attributes, "description", String.class);
+
         this.name =
         TypeUtils.requireType(attributes, "name", String.class);
+
         this.url = 
         TypeUtils.requireType(attributes, "url", String.class);
 
         String tournamentType = 
         TypeUtils.requireType(attributes, "tournamentType", String.class);
+        
         this.tournamentType =
         EnumUtils.valueFromString(TournamentType.class, tournamentType);
     }
