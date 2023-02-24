@@ -10,6 +10,7 @@ public class ApiException extends ChallongeException {
         Object detail = error.get("detail");
         Object source = error.get("source");
         String reason = "unknown";
+
         if (detail instanceof JSONArray) {
             reason = String.join(", ", (JSONArray)detail);
         }
@@ -24,6 +25,7 @@ public class ApiException extends ChallongeException {
                 reason
             );
         }
+
         return String.format(
             "API responded with status code %d: %s",
             status,
@@ -33,9 +35,11 @@ public class ApiException extends ChallongeException {
 
     private static String errorsToString(JSONArray errors) {
         String[] strings = new String[errors.size()];
+
         for (int i = 0; i < errors.size(); i++) {
             strings[i] = errorToString((JSONObject)errors.get(i));
         }
+        
         return String.join("\n", strings);
     }
 
