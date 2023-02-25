@@ -52,11 +52,19 @@ final class ChallongeApi {
         HttpRequest request = HttpRequest.newBuilder()
         .uri(URI.create(REFRESH_TOKEN_ENDPOINT))
         .header("Content-Type", "application/x-www-form-urlencoded")
-        .POST(HttpRequest.BodyPublishers.ofString(EncodeUtils.encodeFormBody(this.auth.refreshRequestBody)))
+        .POST(
+            HttpRequest.BodyPublishers.ofString(
+                EncodeUtils.encodeFormBody(this.auth.refreshRequestBody)
+            )
+        )
         .build();
 
         try {
-            HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = this.httpClient.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+            );
+
             return (JSONObject)this.jsonParser.parse(response.body());
         }
         catch (IOException | InterruptedException e) {
@@ -72,9 +80,14 @@ final class ChallongeApi {
         long expires_in;
 
         try {
-            accessToken = TypeUtils.requireType(response, "access_token", String.class);
-            refreshToken = TypeUtils.requireType(response, "refresh_token", String.class);
-            expires_in = TypeUtils.requireType(response, "expires_in", Long.class);
+            accessToken =
+            TypeUtils.requireType(response, "access_token", String.class);
+
+            refreshToken =
+            TypeUtils.requireType(response, "refresh_token", String.class);
+
+            expires_in =
+            TypeUtils.requireType(response, "expires_in", Long.class);
         }
         catch (UnexpectedTypeException e) {
             throw new MissingTokenException(e);
@@ -105,7 +118,10 @@ final class ChallongeApi {
     private HttpResponse<String> sendApiRequest(HttpRequest request) throws ChallongeException {
         try {
             System.out.println(request.uri());
-            return this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            return this.httpClient.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+            );
         }
         catch (IOException | InterruptedException e) {
             throw new FailedRequestException(e);
