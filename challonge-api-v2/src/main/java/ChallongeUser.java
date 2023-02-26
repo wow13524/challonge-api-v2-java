@@ -19,8 +19,10 @@ public final class ChallongeUser extends ChallongeObject {
 
         this.imageUrl =
         TypeUtils.requireType(attributes, "imageUrl", String.class);
+
         this.email = 
         TypeUtils.requireOptionalType(attributes, "email", String.class);
+        
         this.username = 
         TypeUtils.requireType(attributes, "username", String.class);
     }

@@ -8,6 +8,7 @@ public class ChallongeObject {
     ChallongeObject(ChallongeApi api, String id, String type) {
         this.api = api;
         this.id = id;
+        
         this.type =
         EnumUtils.valueFromString(ChallongeObjectType.class, type);
     }
