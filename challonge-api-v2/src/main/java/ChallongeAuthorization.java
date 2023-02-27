@@ -37,16 +37,19 @@ final class ChallongeAuthorization {
             "client_id",
             TypeUtils.requireType(data, "client_id",String.class)
         );
+
         Map.Entry<String, String> client_secret =
         new AbstractMap.SimpleImmutableEntry<String, String>(
             "client_secret",
             TypeUtils.requireType(data, "client_secret", String.class)
         );
+
         Map.Entry<String, String> redirect_uri =
         new AbstractMap.SimpleImmutableEntry<String, String>(
             "redirect_uri",
             TypeUtils.requireType(data, "redirect_uri", String.class)
         );
+
         this.refresh_token =
         new AbstractMap.SimpleEntry<String, String>(
             "refresh_token",
@@ -59,6 +62,7 @@ final class ChallongeAuthorization {
             redirect_uri,
             this.refresh_token
         );
+        
         this.refreshRequestBody = new ImmutableMap<String, String>(
             client_id,
             redirect_uri,
