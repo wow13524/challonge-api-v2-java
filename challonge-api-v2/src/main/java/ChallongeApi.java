@@ -17,8 +17,8 @@ import org.json.simple.parser.ParseException;
 import main.java.Exceptions.*;
 
 final class ChallongeApi {
-    private static final String API_ENDPOINT = "https://api.challonge.com/v2";
-    private static final String REFRESH_TOKEN_ENDPOINT = "https://api.challonge.com/oauth/token";
+    private static final String API_ENDPOINT = "https://api.challonge.com/v2/";
+    private static final String REFRESH_TOKEN_ENDPOINT = "https://api.challonge.com/oauth/token/";
 
     private final ChallongeAuthorization auth;
     private final HttpClient httpClient;
@@ -29,11 +29,11 @@ final class ChallongeApi {
     private long token_expires_at;
 
     public static URI toURI(String... path) {
-        String endpoint = API_ENDPOINT;
-        for (String x: path) {
-            endpoint += "/" + x;
-        }
-        return URI.create(endpoint + ".json");
+        return URI.create(
+            API_ENDPOINT
+            + String.join("/", path)
+            + ".json"
+        );
     }
 
     public ChallongeApi(File authFile) throws ChallongeException {
