@@ -58,7 +58,7 @@ final class ChallongeApi {
             )
         )
         .build();
-
+        
         try {
             HttpResponse<String> response = this.httpClient.send(
                 request,
@@ -135,7 +135,7 @@ final class ChallongeApi {
                 this.jsonParser.parse(response.body()),
                 JSONObject.class
             );
-            System.out.println(parsedReponse);
+            System.out.println(parsedReponse + "\n");
 
             if (parsedReponse.containsKey("errors")) {
                 Object errors = parsedReponse.get("errors");
