@@ -116,7 +116,7 @@ public class ChallongeTournament extends ChallongeObject {
             );
         }
 
-        TournamentType originalTournamentType = this.getTournamentType();
+        //TournamentType originalTournamentType = this.getTournamentType();
         TournamentDescription originalTournamentOptions = this.getTournamentOptions();
         try {
             //this.tournamentType = tournamentType;
