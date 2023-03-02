@@ -8,7 +8,7 @@ import main.java.Exceptions.MismatchedTournamentOptionsException;
 public class ChallongeTournament extends ChallongeObject {
     private boolean isPrivate;
     private String description, name, url;
-    private TournamentType tournamentType;
+    //private TournamentType tournamentType;
     private TournamentDescription tournamentOptions;
 
     /*TODO
@@ -39,9 +39,9 @@ public class ChallongeTournament extends ChallongeObject {
 
         String tournamentType = 
         TypeUtils.requireType(attributes, "tournamentType", String.class);
-        
-        this.tournamentType =
-        EnumUtils.valueFromString(TournamentType.class, tournamentType);
+
+        /*this.tournamentType =
+        EnumUtils.valueFromString(TournamentType.class, tournamentType);*/
     }
 
     @SuppressWarnings("unchecked")
@@ -119,12 +119,12 @@ public class ChallongeTournament extends ChallongeObject {
         TournamentType originalTournamentType = this.getTournamentType();
         TournamentDescription originalTournamentOptions = this.getTournamentOptions();
         try {
-            this.tournamentType = tournamentType;
+            //this.tournamentType = tournamentType;
             this.tournamentOptions = tournamentOptions;
             this.update();
         }
         catch (ChallongeException e) {
-            this.tournamentType = originalTournamentType;
+            //this.tournamentType = originalTournamentType;
             this.tournamentOptions = originalTournamentOptions;
             throw e;
         }
@@ -151,9 +151,9 @@ public class ChallongeTournament extends ChallongeObject {
         return this.url;
     }
 
-    public TournamentType getTournamentType() {
+    /*public TournamentType getTournamentType() {
         return this.tournamentType;
-    }
+    }*/
 
     public TournamentDescription getTournamentOptions() {
         return this.tournamentOptions;
