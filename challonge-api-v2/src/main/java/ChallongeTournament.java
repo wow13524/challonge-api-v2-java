@@ -49,7 +49,7 @@ public class ChallongeTournament extends ChallongeObject {
         JSONObject attributes = new JSONObject();
         attributes.put("name", this.getName());
         attributes.put("url", this.getUrl());
-        attributes.put("tournament_type", this.getTournamentType().name);
+        //attributes.put("tournament_type", this.getTournamentType().name);
         attributes.put("private", this.isPrivate());
         //
         attributes.put("description", this.getDescription());
