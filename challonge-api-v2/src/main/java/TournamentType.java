@@ -14,7 +14,7 @@ public enum TournamentType {
     LEAGUE("league");
 
     public final String name;
-
+    
     TournamentType(String name) {
         this.name = name;
     }
