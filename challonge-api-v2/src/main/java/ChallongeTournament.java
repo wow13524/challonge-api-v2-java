@@ -37,10 +37,10 @@ public class ChallongeTournament extends ChallongeObject {
         this.url = 
         TypeUtils.requireType(attributes, "url", String.class);
 
-        String tournamentType = 
+        /*String tournamentType = 
         TypeUtils.requireType(attributes, "tournamentType", String.class);
 
-        /*this.tournamentType =
+        this.tournamentType =
         EnumUtils.valueFromString(TournamentType.class, tournamentType);*/
     }
 
