@@ -1,6 +1,9 @@
 package main.java;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+
+import org.json.simple.JSONObject;
+
 import main.java.Exceptions.ChallongeException;
 
 public final class DoubleEliminationOptions extends TournamentOptions {
@@ -50,7 +53,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
         }
     }
 
-    private static final String KEY_DOUBLE_ELIMINATION_OPTIONS = "double_elimination_options";
+    public static final String OPTIONS_KEY = "double_elimination_options";
     private static final boolean DEFAULT_SPLIT_PARTICIPANTS = false;
     private static final GrandFinalsModifier DEFAILT_GRAND_FINALS_MODIFIER = GrandFinalsModifier.NONE;
 
@@ -59,7 +62,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
 
     private DoubleEliminationOptions(boolean splitParticipants, GrandFinalsModifier grandFinalsModifier) {
         super(
-            KEY_DOUBLE_ELIMINATION_OPTIONS,
+            OPTIONS_KEY,
             TournamentType.DOUBLE_ELIMINATION,
             new ImmutableMap<String, Object>(
                 new SimpleImmutableEntry<String, Object>(
@@ -74,6 +77,24 @@ public final class DoubleEliminationOptions extends TournamentOptions {
         );
         this.splitParticipants = splitParticipants;
         this.grandFinalsModifier = grandFinalsModifier;
+    }
+
+    DoubleEliminationOptions(JSONObject json) throws ChallongeException {
+        this(
+            TypeUtils.requireType(
+                json,
+                "splitParticipants",
+                Boolean.class
+            ),
+            EnumUtils.valueFromString(
+                GrandFinalsModifier.class,
+                TypeUtils.requireType(
+                    json,
+                    "grandFinalsModifier",
+                    String.class
+                )
+            )
+        );
     }
 
     public static DoubleEliminationOptionsBuilder newBuilder() {

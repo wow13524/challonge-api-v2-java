@@ -41,7 +41,18 @@ public class ChallongeTournament extends ChallongeObject {
         TournamentType tournamentType =
         EnumUtils.valueFromString(TournamentType.class, tournamentTypeString);
 
-        
+        this.tournamentOptions =
+        parseTournamentOptions(attributes, tournamentType);
+
+    }
+
+    private static TournamentOptions parseTournamentOptions(JSONObject attributes, TournamentType tournamentType) throws ChallongeException {
+        switch (tournamentType) {
+            case DOUBLE_ELIMINATION:
+                return new DoubleEliminationOptions(attributes);
+            default:
+                return null;
+        }
     }
 
     @SuppressWarnings("unchecked")
