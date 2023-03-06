@@ -53,7 +53,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
         }
     }
 
-    public static final String OPTIONS_KEY = "double_elimination_options";
+    private static final String OPTIONS_KEY = "double_elimination_options";
     private static final boolean DEFAULT_SPLIT_PARTICIPANTS = false;
     private static final GrandFinalsModifier DEFAILT_GRAND_FINALS_MODIFIER = GrandFinalsModifier.NONE;
 
@@ -88,10 +88,11 @@ public final class DoubleEliminationOptions extends TournamentOptions {
             ),
             EnumUtils.valueFromString(
                 GrandFinalsModifier.class,
-                TypeUtils.requireType(
+                TypeUtils.requireOptionalType(
                     json,
                     "grandFinalsModifier",
-                    String.class
+                    String.class,
+                    ""
                 )
             )
         );

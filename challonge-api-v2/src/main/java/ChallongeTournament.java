@@ -23,6 +23,26 @@ public class ChallongeTournament extends ChallongeObject {
         JSONObject attributes =
         TypeUtils.requireType(json, "attributes", JSONObject.class);
 
+        this.loadFromAttributes(attributes);
+    }
+
+    private static TournamentOptions parseTournamentOptions(JSONObject attributes, TournamentType tournamentType) throws ChallongeException {
+        switch (tournamentType) {
+            case SINGLE_ELIMINATION:
+            return new SingleEliminationOptions(attributes);
+            case DOUBLE_ELIMINATION:
+                return new DoubleEliminationOptions(attributes);
+            default:
+                throw new ChallongeException(
+                    String.format(
+                        "Unsupported tournamentType '%s'",
+                        tournamentType.name
+                    )
+                );
+        }
+    }
+
+    private void loadFromAttributes(JSONObject attributes) throws ChallongeException {
         this.isPrivate =
         TypeUtils.requireType(attributes, "private", Boolean.class);
 
@@ -42,17 +62,7 @@ public class ChallongeTournament extends ChallongeObject {
         EnumUtils.valueFromString(TournamentType.class, tournamentTypeString);
 
         this.tournamentOptions =
-        parseTournamentOptions(attributes, tournamentType);
-
-    }
-
-    private static TournamentOptions parseTournamentOptions(JSONObject attributes, TournamentType tournamentType) throws ChallongeException {
-        switch (tournamentType) {
-            case DOUBLE_ELIMINATION:
-                return new DoubleEliminationOptions(attributes);
-            default:
-                return null;
-        }
+        ChallongeTournament.parseTournamentOptions(attributes, tournamentType);
     }
 
     @SuppressWarnings("unchecked")
@@ -68,10 +78,12 @@ public class ChallongeTournament extends ChallongeObject {
         //
         attributes.put("description", this.getDescription());
         //
-        attributes.put(
-            this.getTournamentOptions().getKey(),
-            this.getTournamentOptions().getOptions()
-        );
+        if (this.getTournamentOptions().getKey() != null) {
+            attributes.put(
+                this.getTournamentOptions().getKey(),
+                this.getTournamentOptions().getOptions()
+            );
+        }
 
         return attributes;
     }
@@ -85,10 +97,22 @@ public class ChallongeTournament extends ChallongeObject {
         data.put("type", "tournaments");
         data.put("attributes", this.toAttributes());
         
-        this.api.apiPut(
-            ChallongeApi.toURI("tournaments", this.getId()),
-            body
-        );
+        try {
+            this.api.apiPut(
+                ChallongeApi.toURI("tournaments", this.getId()),
+                body
+            );
+        }
+        catch (ChallongeException e) {
+            JSONObject response =
+            this.api.apiGet(ChallongeApi.toURI("tournaments", this.getId()));
+            JSONObject rData =
+            TypeUtils.requireType(response, "data", JSONObject.class);
+            JSONObject rAttributes =
+            TypeUtils.requireType(rData, "attributes", JSONObject.class);
+            this.loadFromAttributes(rAttributes);
+            throw e;
+        }
     }
 
     public void setName(String name) throws ChallongeException {
@@ -98,16 +122,8 @@ public class ChallongeTournament extends ChallongeObject {
             String.class,
             "name"
         );
-
-        String originalName = this.getName();
-        try {
-            this.name = name;
-            this.update();
-        }
-        catch (ChallongeException e) {
-            this.name = originalName;
-            throw e;
-        }
+        this.name = name;
+        this.update();
     }
 
     public void setTournamentOptions(TournamentOptions tournamentOptions) throws ChallongeException {
@@ -117,19 +133,8 @@ public class ChallongeTournament extends ChallongeObject {
             TournamentOptions.class,
             "tournamentOptions"
         );
-
-        //TournamentType originalTournamentType = this.getTournamentType();
-        TournamentOptions originalTournamentOptions = this.getTournamentOptions();
-        try {
-            //this.tournamentType = tournamentType;
-            this.tournamentOptions = tournamentOptions;
-            this.update();
-        }
-        catch (ChallongeException e) {
-            //this.tournamentType = originalTournamentType;
-            this.tournamentOptions = originalTournamentOptions;
-            throw e;
-        }
+        this.tournamentOptions = tournamentOptions;
+        this.update();
     }
 
     public void delete() throws ChallongeException {
@@ -152,10 +157,6 @@ public class ChallongeTournament extends ChallongeObject {
     public String getUrl() {
         return this.url;
     }
-
-    /*public TournamentType getTournamentType() {
-        return this.tournamentType;
-    }*/
 
     public TournamentOptions getTournamentOptions() {
         return this.tournamentOptions;

@@ -19,7 +19,7 @@ public abstract class TournamentOptions {
         return this.tournamentType;
     }
 
-    public ImmutableMap<String, Object> getOptions() {
+    ImmutableMap<String, Object> getOptions() {
         return this.options;
     }
 }
