@@ -9,10 +9,6 @@ public class ChallongeTournament extends ChallongeObject {
     private String description, name, url;
     private TournamentOptions tournamentOptions;
 
-    /*TODO
-     * figure out how to handle tournamentType and tournamentOptions once and for all!!!
-     * In terms of parsing from the API, access through ChallongeTournament, and updating through setTournamentType()!!!
-     */
     ChallongeTournament(ChallongeApi api, JSONObject json) throws ChallongeException {
         super(
             api,
