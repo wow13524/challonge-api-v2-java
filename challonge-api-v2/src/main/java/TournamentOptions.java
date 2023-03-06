@@ -5,6 +5,8 @@ public abstract class TournamentOptions {
     private final TournamentType tournamentType;
     private final ImmutableMap<String, Object> options;
 
+    //TODO override .equals()
+
     TournamentOptions(String key, TournamentType tournamentType, ImmutableMap<String, Object> options) {
         this.key = key;
         this.tournamentType = tournamentType;

@@ -81,10 +81,11 @@ public final class DoubleEliminationOptions extends TournamentOptions {
 
     DoubleEliminationOptions(JSONObject json) throws ChallongeException {
         this(
-            TypeUtils.requireType(
+            TypeUtils.requireOptionalType(
                 json,
                 "splitParticipants",
-                Boolean.class
+                Boolean.class,
+                false
             ),
             EnumUtils.valueFromString(
                 GrandFinalsModifier.class,
