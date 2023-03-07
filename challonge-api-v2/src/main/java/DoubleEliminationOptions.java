@@ -85,7 +85,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
                 json,
                 "splitParticipants",
                 Boolean.class,
-                false
+                DEFAULT_SPLIT_PARTICIPANTS
             ),
             EnumUtils.valueFromString(
                 GrandFinalsModifier.class,
@@ -93,7 +93,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
                     json,
                     "grandFinalsModifier",
                     String.class,
-                    ""
+                    DEFAILT_GRAND_FINALS_MODIFIER.name
                 )
             )
         );

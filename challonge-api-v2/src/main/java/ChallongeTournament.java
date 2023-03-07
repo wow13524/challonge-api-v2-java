@@ -28,6 +28,9 @@ public class ChallongeTournament extends ChallongeObject {
             return new SingleEliminationOptions(attributes);
             case DOUBLE_ELIMINATION:
                 return new DoubleEliminationOptions(attributes);
+            
+            case FREE_FOR_ALL:
+                return new FreeForAllOptions(attributes);
             default:
                 throw new ChallongeException(
                     String.format(
