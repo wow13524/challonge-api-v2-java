@@ -1,5 +1,7 @@
 package main.java;
 
+import java.lang.Byte;
+
 import javax.lang.model.type.NullType;
 
 import org.json.simple.JSONObject;
@@ -15,10 +17,10 @@ final class TypeUtils {
 
     @SuppressWarnings("unchecked")
     public static <T> T requireType(Object obj, Class<T> type) throws UnexpectedTypeException {
-        if (!type.isInstance(obj)) {
-            throw new UnexpectedTypeException(type, getClass(obj));
+        if (type.isInstance(obj)) {
+            return (T)obj;
         }
-        return (T)obj;
+        throw new UnexpectedTypeException(type, getClass(obj));
     }
 
     public static <T> T requireOptionalType(Object obj, Class<T> type) throws UnexpectedTypeException {
