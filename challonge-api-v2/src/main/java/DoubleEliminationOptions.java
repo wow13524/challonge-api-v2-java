@@ -69,6 +69,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
                     "split_participants",
                     splitParticipants
                 ),
+                grandFinalsModifier == GrandFinalsModifier.NONE ? null :
                 new SimpleImmutableEntry<String, Object>(
                     "grand_finals_modifier",
                     grandFinalsModifier.name
