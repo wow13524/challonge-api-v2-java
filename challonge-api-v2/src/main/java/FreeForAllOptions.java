@@ -24,15 +24,15 @@ public final class FreeForAllOptions extends TournamentOptions {
         }
     }
 
-    private static final String OPTIONS_KEY = "double_elimination_options";
-    private static final int DEFAULT_MAX_PARTICIPANTS = 5;
+    private static final String OPTIONS_KEY = "free_for_all_options";
+    private static final int DEFAULT_MAX_PARTICIPANTS = 4;
 
     private final int maxParticipants;
 
     private FreeForAllOptions(int maxParticipants) {
         super(
             OPTIONS_KEY,
-            TournamentType.DOUBLE_ELIMINATION,
+            TournamentType.FREE_FOR_ALL,
             new ImmutableMap<String, Object>(
                 new SimpleImmutableEntry<String, Object>(
                     "max_participants",
