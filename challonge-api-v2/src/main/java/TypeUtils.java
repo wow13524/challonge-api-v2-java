@@ -1,7 +1,5 @@
 package main.java;
 
-import java.lang.Byte;
-
 import javax.lang.model.type.NullType;
 
 import org.json.simple.JSONObject;
