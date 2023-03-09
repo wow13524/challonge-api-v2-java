@@ -1,5 +1,6 @@
 package main.java.Exceptions;
 
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.json.simple.JSONArray;
@@ -11,15 +12,17 @@ public class ApiException extends ChallongeException {
         String reason = "unknown";
 
         if (detail instanceof JSONObject) {
-            reason = "";
-            for (Object e : ((JSONObject)detail).entrySet()) {
-                Entry<String, Object> entry = (Entry<String, Object>)e;
-                reason += String.format(
-                    "\n\t%s -> %s",
+            Set<Entry<String, Object>> entries = ((JSONObject)detail).entrySet();
+            String[] reasons = new String[entries.size()];
+            int i = 0;
+            for (Entry<String, Object> entry : entries) {
+                reasons[i++] = String.format(
+                    "%s -> %s",
                     entry.getKey(),
                     detailToString(entry.getValue())
                 );
             }
+            reason = String.join("; ", reasons);
         }
         else if (detail instanceof JSONArray) {
             reason = String.join(", ", (JSONArray)detail);
