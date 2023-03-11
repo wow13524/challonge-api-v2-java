@@ -77,10 +77,11 @@ public class ChallongeTournament extends ChallongeObject {
         //
         attributes.put("description", this.getDescription());
         //
-        if (this.getTournamentOptions().getKey() != null) {
+        TournamentOptions options = this.getTournamentOptions();
+        if (options.getTournamentType().key != null) {
             attributes.put(
-                this.getTournamentOptions().getKey(),
-                this.getTournamentOptions().getOptions()
+                options.getKey(),
+                options.getOptions()
             );
         }
 

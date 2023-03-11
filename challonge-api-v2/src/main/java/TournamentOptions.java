@@ -1,18 +1,16 @@
 package main.java;
 
 public abstract class TournamentOptions {
-    private final String key;
     private final TournamentType tournamentType;
     private final ImmutableMap<String, Object> options;
 
-    TournamentOptions(String key, TournamentType tournamentType, ImmutableMap<String, Object> options) {
-        this.key = key;
+    TournamentOptions(TournamentType tournamentType, ImmutableMap<String, Object> options) {
         this.tournamentType = tournamentType;
         this.options = options;
     }
 
     public String getKey() {
-        return this.key;
+        return this.tournamentType.key;
     }
 
     public TournamentType getTournamentType() {

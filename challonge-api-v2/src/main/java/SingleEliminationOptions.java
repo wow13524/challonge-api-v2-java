@@ -15,7 +15,6 @@ public final class SingleEliminationOptions extends TournamentOptions {
 
     private SingleEliminationOptions() {
         super(
-            null,
             TournamentType.SINGLE_ELIMINATION,
             null
         );

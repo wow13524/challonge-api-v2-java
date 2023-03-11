@@ -53,7 +53,6 @@ public final class DoubleEliminationOptions extends TournamentOptions {
         }
     }
 
-    private static final String OPTIONS_KEY = "double_elimination_options";
     private static final boolean DEFAULT_SPLIT_PARTICIPANTS = false;
     private static final GrandFinalsModifier DEFAILT_GRAND_FINALS_MODIFIER = GrandFinalsModifier.NONE;
 
@@ -62,7 +61,6 @@ public final class DoubleEliminationOptions extends TournamentOptions {
 
     private DoubleEliminationOptions(boolean splitParticipants, GrandFinalsModifier grandFinalsModifier) {
         super(
-            OPTIONS_KEY,
             TournamentType.DOUBLE_ELIMINATION,
             new ImmutableMap<String, Object>(
                 new SimpleImmutableEntry<String, Object>(
