@@ -5,7 +5,7 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public final class SingleEliminationOptions extends TournamentOptions {
-    public static final class SingleEliminationOptionsBuilder {
+    public static final class SingleEliminationOptionsBuilder extends TournamentOptionsBuilder {
         private SingleEliminationOptionsBuilder() {}
 
         public TournamentOptions build() {

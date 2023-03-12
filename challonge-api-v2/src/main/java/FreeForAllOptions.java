@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public final class FreeForAllOptions extends TournamentOptions {
-    public static final class FreeForAllOptionsBuilder {
+    public static final class FreeForAllOptionsBuilder extends TournamentOptionsBuilder {
         private int maxParticipants = DEFAULT_MAX_PARTICIPANTS;
 
         private FreeForAllOptionsBuilder() {}
@@ -17,6 +17,7 @@ public final class FreeForAllOptions extends TournamentOptions {
             return this;
         }
 
+        @Override
         public TournamentOptions build() {
             return new FreeForAllOptions(
                 this.maxParticipants

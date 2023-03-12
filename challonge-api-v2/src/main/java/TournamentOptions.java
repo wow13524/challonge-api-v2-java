@@ -1,6 +1,10 @@
 package main.java;
 
 public abstract class TournamentOptions {
+    public static abstract class TournamentOptionsBuilder {
+        public abstract TournamentOptions build();
+    }
+
     private final TournamentType tournamentType;
     private final ImmutableMap<String, Object> options;
 

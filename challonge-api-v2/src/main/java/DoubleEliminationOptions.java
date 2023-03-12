@@ -24,7 +24,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
         }
     }
     
-    public static final class DoubleEliminationOptionsBuilder {
+    public static final class DoubleEliminationOptionsBuilder extends TournamentOptionsBuilder {
         private boolean splitParticipants = DEFAULT_SPLIT_PARTICIPANTS;
         private GrandFinalsModifier grandFinalsModifier = DEFAILT_GRAND_FINALS_MODIFIER;
 
@@ -45,6 +45,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
             return this;
         }
 
+        @Override
         public TournamentOptions build() {
             return new DoubleEliminationOptions(
                 this.splitParticipants,
