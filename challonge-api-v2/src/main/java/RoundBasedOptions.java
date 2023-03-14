@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 
 import main.java.Exceptions.ChallongeException;
 
-abstract class RoundBasedTournamentOptions extends TournamentOptions {
+abstract class RoundBasedOptions extends TournamentOptions {
     static final double DEFAULT_POINTS_GAME_WIN = 1;
     static final double DEFAULT_POINTS_GAME_TIE = 0;
     static final double DEFAULT_POINTS_MATCH_WIN = 1;
@@ -14,7 +14,7 @@ abstract class RoundBasedTournamentOptions extends TournamentOptions {
 
     protected final double pointsGameWin,pointsGameTie,pointsMatchWin,pointsMatchTie;
 
-    RoundBasedTournamentOptions() {
+    RoundBasedOptions(TournamentType tournamentType, double pointsGameWin, double pointsGameTie, double pointsMatchWin, double pointsMatchTie) {
         
     }
 
