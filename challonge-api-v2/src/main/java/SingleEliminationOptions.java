@@ -8,16 +8,14 @@ public final class SingleEliminationOptions extends TournamentOptions {
     public static final class SingleEliminationOptionsBuilder extends TournamentOptionsBuilder {
         private SingleEliminationOptionsBuilder() {}
 
+        @Override
         public TournamentOptions build() {
             return new SingleEliminationOptions();
         }
     }
 
     private SingleEliminationOptions() {
-        super(
-            TournamentType.SINGLE_ELIMINATION,
-            null
-        );
+        super(TournamentType.SINGLE_ELIMINATION);
     }
 
     SingleEliminationOptions(JSONObject json) throws ChallongeException {
@@ -26,5 +24,10 @@ public final class SingleEliminationOptions extends TournamentOptions {
 
     public static SingleEliminationOptionsBuilder newBuilder() {
         return new SingleEliminationOptionsBuilder();
+    }
+
+    @Override
+    ImmutableMap<String, Object> getOptions() {
+        return null;
     }
 }

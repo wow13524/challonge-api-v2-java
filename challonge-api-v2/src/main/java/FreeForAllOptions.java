@@ -12,7 +12,7 @@ public final class FreeForAllOptions extends TournamentOptions {
 
         private FreeForAllOptionsBuilder() {}
 
-        public FreeForAllOptionsBuilder maxParticipants(int maxParticipants) throws ChallongeException {
+        public FreeForAllOptionsBuilder maxParticipants(int maxParticipants) {
             this.maxParticipants = maxParticipants;
             return this;
         }
@@ -30,15 +30,7 @@ public final class FreeForAllOptions extends TournamentOptions {
     private final int maxParticipants;
 
     private FreeForAllOptions(int maxParticipants) {
-        super(
-            TournamentType.FREE_FOR_ALL,
-            new ImmutableMap<String, Object>(
-                new SimpleImmutableEntry<String, Object>(
-                    "max_participants",
-                    maxParticipants
-                )
-            )
-        );
+        super(TournamentType.FREE_FOR_ALL);
         this.maxParticipants = maxParticipants;
     }
 
@@ -59,5 +51,24 @@ public final class FreeForAllOptions extends TournamentOptions {
 
     public int getMaxParticipants() {
         return this.maxParticipants;
+    }
+
+    @Override
+    ImmutableMap<String, Object> getOptions() {
+        return new ImmutableMap<String, Object>(
+            new SimpleImmutableEntry<String, Object>(
+                "max_participants",
+                maxParticipants
+            )
+        );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!super.equals(o)) {
+            return false;
+        }
+        FreeForAllOptions other = (FreeForAllOptions)o;
+        return other.maxParticipants == this.maxParticipants;
     }
 }

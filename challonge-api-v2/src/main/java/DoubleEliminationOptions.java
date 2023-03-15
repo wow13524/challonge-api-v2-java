@@ -30,7 +30,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
 
         private DoubleEliminationOptionsBuilder() {}
 
-        public DoubleEliminationOptionsBuilder splitParticipants(boolean splitParticipants) throws ChallongeException {
+        public DoubleEliminationOptionsBuilder splitParticipants(boolean splitParticipants) {
             this.splitParticipants = splitParticipants;
             return this;
         }
@@ -61,20 +61,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
     private final GrandFinalsModifier grandFinalsModifier;
 
     private DoubleEliminationOptions(boolean splitParticipants, GrandFinalsModifier grandFinalsModifier) {
-        super(
-            TournamentType.DOUBLE_ELIMINATION,
-            new ImmutableMap<String, Object>(
-                new SimpleImmutableEntry<String, Object>(
-                    "split_participants",
-                    splitParticipants
-                ),
-                grandFinalsModifier == GrandFinalsModifier.NONE ? null :
-                new SimpleImmutableEntry<String, Object>(
-                    "grand_finals_modifier",
-                    grandFinalsModifier.name
-                )
-            )
-        );
+        super(TournamentType.DOUBLE_ELIMINATION);
         this.splitParticipants = splitParticipants;
         this.grandFinalsModifier = grandFinalsModifier;
     }
@@ -109,5 +96,30 @@ public final class DoubleEliminationOptions extends TournamentOptions {
 
     public GrandFinalsModifier getGrandFinalsModifier() {
         return this.grandFinalsModifier;
+    }
+
+    @Override
+    ImmutableMap<String, Object> getOptions() {
+        return new ImmutableMap<String, Object>(
+            new SimpleImmutableEntry<String, Object>(
+                "split_participants",
+                splitParticipants
+            ),
+            grandFinalsModifier == GrandFinalsModifier.NONE ? null :
+            new SimpleImmutableEntry<String, Object>(
+                "grand_finals_modifier",
+                grandFinalsModifier.name
+            )
+        );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!super.equals(o)) {
+            return false;
+        }
+        DoubleEliminationOptions other = (DoubleEliminationOptions)o;
+        return other.splitParticipants == this.splitParticipants
+        && other.grandFinalsModifier == this.grandFinalsModifier;
     }
 }
