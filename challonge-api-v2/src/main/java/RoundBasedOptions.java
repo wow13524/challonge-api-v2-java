@@ -1,5 +1,8 @@
 package main.java;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map.Entry;
+
 import org.json.simple.JSONObject;
 
 import main.java.Exceptions.ChallongeException;
@@ -9,6 +12,7 @@ abstract class RoundBasedOptions extends TournamentOptions {
     static final double DEFAULT_POINTS_GAME_TIE = 0;
     static final double DEFAULT_POINTS_MATCH_WIN = 1;
     static final double DEFAULT_POINTS_MATCH_TIE = 0.5;
+    private static final int NUM_ENTRIES = 4;
 
     protected final double pointsGameWin,pointsGameTie,pointsMatchWin,pointsMatchTie;
 
@@ -25,33 +29,29 @@ abstract class RoundBasedOptions extends TournamentOptions {
             tournamentType,
             TypeUtils.requireOptionalType(
                 json,
-                "ptsGameWin",
+                "ptsForGameWin",
                 Double.class,
                 DEFAULT_POINTS_GAME_WIN
             ),
             TypeUtils.requireOptionalType(
                 json,
-                "ptsGameTie",
+                "ptsForGameTie",
                 Double.class,
                 DEFAULT_POINTS_GAME_TIE
             ),
             TypeUtils.requireOptionalType(
                 json,
-                "ptsMatchWin",
+                "ptsForMatchWin",
                 Double.class,
                 DEFAULT_POINTS_MATCH_WIN
             ),
             TypeUtils.requireOptionalType(
                 json,
-                "ptsMatchTie",
+                "ptsForMatchTie",
                 Double.class,
                 DEFAULT_POINTS_MATCH_TIE
             )
         );
-    }
-
-    private boolean doubleEquals(double a, double b) {
-        return Math.abs(a - b) < Math.ulp(0d);
     }
 
     public double getPointsGameWin() {
@@ -68,6 +68,41 @@ abstract class RoundBasedOptions extends TournamentOptions {
 
     public double getPointsMatchTie() {
         return this.pointsMatchTie;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected ImmutableMap<String, Object> getOptions(Entry<String, Object>... additionalEntries) {
+        Entry<String, Object>[] entries =
+        new Entry[NUM_ENTRIES + additionalEntries.length];
+        int i = 0;
+        entries[i++] = new SimpleImmutableEntry<String, Object>(
+            "pts_for_game_win",
+            this.pointsGameWin
+        );
+        entries[i++] = new SimpleImmutableEntry<String, Object>(
+            "pts_for_game_tie",
+            this.pointsGameTie
+        );
+        entries[i++] = new SimpleImmutableEntry<String, Object>(
+            "pts_for_match_win",
+            this.pointsMatchWin
+        );
+        entries[i++] = new SimpleImmutableEntry<String, Object>(
+            "pts_for_match_tie",
+            this.pointsMatchTie
+        );
+        System.arraycopy(
+            additionalEntries,
+            0,
+            entries,
+            i,
+            additionalEntries.length
+        );
+        return new ImmutableMap<String, Object>(entries);
+    }
+
+    private boolean doubleEquals(double a, double b) {
+        return Math.abs(a - b) < Math.ulp(0d);
     }
 
     @Override
