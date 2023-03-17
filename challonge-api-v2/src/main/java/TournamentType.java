@@ -3,7 +3,7 @@ package main.java;
 public enum TournamentType {
     SINGLE_ELIMINATION(null, "single elimination"),
     DOUBLE_ELIMINATION("double_elimination_options", "double elimination"),
-    ROUND_ROBIN(null, "round robin"),
+    ROUND_ROBIN("round_robin_options", "round robin"),
     SWISS(null, "swiss"),
     FREE_FOR_ALL("free_for_all_options", "free for all"),
     LEADERBOARD(null, "leaderboard"),

@@ -28,7 +28,9 @@ public class ChallongeTournament extends ChallongeObject {
             return new SingleEliminationOptions(attributes);
             case DOUBLE_ELIMINATION:
                 return new DoubleEliminationOptions(attributes);
-            
+            case ROUND_ROBIN:
+                return new RoundRobinOptions(attributes);
+
             case FREE_FOR_ALL:
                 return new FreeForAllOptions(attributes);
             default:
@@ -58,7 +60,11 @@ public class ChallongeTournament extends ChallongeObject {
         TypeUtils.requireType(attributes, "tournamentType", String.class);
 
         TournamentType tournamentType =
-        EnumUtils.valueFromString(TournamentType.class, tournamentTypeString);
+        EnumUtils.valueFromString(
+            TournamentType.class,
+            tournamentTypeString,
+            String::startsWith
+            );
 
         this.tournamentOptions =
         ChallongeTournament.parseTournamentOptions(attributes, tournamentType);
