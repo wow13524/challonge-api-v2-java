@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 
 import main.java.Exceptions.ChallongeException;
 
-public final class RoundRobinOptions extends TournamentOptions/*RoundBasedOptions*/ {
+public final class RoundRobinOptions extends RoundBasedOptions {
     public enum Ranking {
         MATCH_WINS("match wins"),
         GAME_WINS("game wins"),
@@ -28,16 +28,16 @@ public final class RoundRobinOptions extends TournamentOptions/*RoundBasedOption
     }
 
     public static final class RoundRobinOptionsBuilder extends TournamentOptionsBuilder {
-        /*private double pointsGameWin = DEFAULT_POINTS_GAME_WIN;
+        private double pointsGameWin = DEFAULT_POINTS_GAME_WIN;
         private double pointsGameTie = DEFAULT_POINTS_GAME_TIE;
         private double pointsMatchWin = DEFAULT_POINTS_MATCH_WIN;
-        private double pointsMatchTie = DEFAULT_POINTS_MATCH_TIE;*/
+        private double pointsMatchTie = DEFAULT_POINTS_MATCH_TIE;
         private int iterations = DEFAULT_ITERATIONS;
         private Ranking ranking = DEFAULT_RANKING;
 
         private RoundRobinOptionsBuilder() {}
 
-        /*public RoundRobinOptionsBuilder pointsGameWin(double pointsGameWin) {
+        public RoundRobinOptionsBuilder pointsGameWin(double pointsGameWin) {
             this.pointsGameWin = pointsGameWin;
             return this;
         }
@@ -55,7 +55,7 @@ public final class RoundRobinOptions extends TournamentOptions/*RoundBasedOption
         public RoundRobinOptionsBuilder pointsMatchTie(double pointsMatchTie) {
             this.pointsMatchTie = pointsMatchTie;
             return this;
-        }*/
+        }
 
         public RoundRobinOptionsBuilder iterations(int iterations) {
             this.iterations = iterations;
@@ -75,10 +75,10 @@ public final class RoundRobinOptions extends TournamentOptions/*RoundBasedOption
         @Override
         public TournamentOptions build() {
             return new RoundRobinOptions(
-                /*this.pointsGameWin,
+                this.pointsGameWin,
                 this.pointsGameTie,
                 this.pointsMatchWin,
-                this.pointsMatchTie,*/
+                this.pointsMatchTie,
                 this.iterations,
                 this.ranking
             );
@@ -91,20 +91,20 @@ public final class RoundRobinOptions extends TournamentOptions/*RoundBasedOption
     private final int iterations;
     private final Ranking ranking;
 
-    private RoundRobinOptions(/*double pointsGameWin, double pointsGameTie, double pointsMatchWin, double pointsMatchTie, */int iterations, Ranking ranking) {
+    private RoundRobinOptions(double pointsGameWin, double pointsGameTie, double pointsMatchWin, double pointsMatchTie, int iterations, Ranking ranking) {
         super(
-            TournamentType.ROUND_ROBIN/*,
+            TournamentType.ROUND_ROBIN,
             pointsGameWin,
             pointsGameTie,
             pointsMatchWin,
-            pointsMatchTie*/
+            pointsMatchTie
         );
         this.iterations = iterations;
         this.ranking = ranking;
     }
 
     RoundRobinOptions(JSONObject json) throws ChallongeException {
-        /*super(
+        super(
             TournamentType.ROUND_ROBIN,
             json
         );
@@ -122,8 +122,8 @@ public final class RoundRobinOptions extends TournamentOptions/*RoundBasedOption
                 String.class,
                 DEFAULT_RANKING.name
             )
-        );*/
-        this(
+        );
+        /*this(
             (int)(long)TypeUtils.requireOptionalType(
                 json,
                 "roundRobinIterations",
@@ -139,7 +139,7 @@ public final class RoundRobinOptions extends TournamentOptions/*RoundBasedOption
                     DEFAULT_RANKING.name
                 )
             )
-        );
+        );*/
     }
 
     public static RoundRobinOptionsBuilder newBuilder() {
@@ -156,7 +156,7 @@ public final class RoundRobinOptions extends TournamentOptions/*RoundBasedOption
 
     @Override
     ImmutableMap<String, Object> getOptions() {
-        return new ImmutableMap<String, Object>/*super.getOptions*/(
+        return super.getOptions(
             new SimpleImmutableEntry<String, Object>(
                 "iterations",
                 this.iterations

@@ -27,30 +27,30 @@ abstract class RoundBasedOptions extends TournamentOptions {
     RoundBasedOptions(TournamentType tournamentType, JSONObject json) throws ChallongeException {
         this(
             tournamentType,
-            TypeUtils.requireOptionalType(
+            Double.parseDouble(TypeUtils.requireOptionalType(
                 json,
                 "ptsForGameWin",
-                Double.class,
-                DEFAULT_POINTS_GAME_WIN
-            ),
-            TypeUtils.requireOptionalType(
+                String.class,
+                DEFAULT_POINTS_GAME_WIN+""
+            )),
+            Double.parseDouble(TypeUtils.requireOptionalType(
                 json,
                 "ptsForGameTie",
-                Double.class,
-                DEFAULT_POINTS_GAME_TIE
-            ),
-            TypeUtils.requireOptionalType(
+                String.class,
+                DEFAULT_POINTS_GAME_TIE+""
+            )),
+            Double.parseDouble(TypeUtils.requireOptionalType(
                 json,
                 "ptsForMatchWin",
-                Double.class,
-                DEFAULT_POINTS_MATCH_WIN
-            ),
-            TypeUtils.requireOptionalType(
+                String.class,
+                DEFAULT_POINTS_MATCH_WIN+""
+            )),
+            Double.parseDouble(TypeUtils.requireOptionalType(
                 json,
                 "ptsForMatchTie",
-                Double.class,
-                DEFAULT_POINTS_MATCH_TIE
-            )
+                String.class,
+                DEFAULT_POINTS_MATCH_TIE+""
+            ))
         );
     }
 
