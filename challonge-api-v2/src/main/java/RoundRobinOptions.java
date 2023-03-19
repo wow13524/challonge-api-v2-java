@@ -123,23 +123,6 @@ public final class RoundRobinOptions extends RoundBasedOptions {
                 DEFAULT_RANKING.name
             )
         );
-        /*this(
-            (int)(long)TypeUtils.requireOptionalType(
-                json,
-                "roundRobinIterations",
-                Long.class,
-                (long)DEFAULT_ITERATIONS
-            ),
-            EnumUtils.valueFromString(
-                Ranking.class,
-                TypeUtils.requireOptionalType(
-                    json,
-                    "rankedBy",
-                    String.class,
-                    DEFAULT_RANKING.name
-                )
-            )
-        );*/
     }
 
     public static RoundRobinOptionsBuilder newBuilder() {
