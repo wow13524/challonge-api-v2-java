@@ -102,7 +102,7 @@ abstract class RoundBasedOptions extends TournamentOptions {
         return new ImmutableMap<String, Object>(entries);
     }
 
-    private boolean doubleEquals(double a, double b) {
+    protected static boolean doubleEquals(double a, double b) {
         return Math.abs(a - b) < Math.ulp(0d);
     }
 

@@ -30,7 +30,8 @@ public class ChallongeTournament extends ChallongeObject {
                 return new DoubleEliminationOptions(attributes);
             case ROUND_ROBIN:
                 return new RoundRobinOptions(attributes);
-
+            case SWISS:
+                return new SwissOptions(attributes);
             case FREE_FOR_ALL:
                 return new FreeForAllOptions(attributes);
             default:
