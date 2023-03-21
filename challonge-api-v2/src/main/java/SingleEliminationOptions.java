@@ -9,7 +9,7 @@ public final class SingleEliminationOptions extends TournamentOptions {
         private SingleEliminationOptionsBuilder() {}
 
         @Override
-        public TournamentOptions build() {
+        public SingleEliminationOptions build() {
             return new SingleEliminationOptions();
         }
     }

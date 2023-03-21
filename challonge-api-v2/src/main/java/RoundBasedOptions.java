@@ -8,10 +8,44 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 abstract class RoundBasedOptions extends TournamentOptions {
-    static final double DEFAULT_POINTS_GAME_WIN = 1;
-    static final double DEFAULT_POINTS_GAME_TIE = 0;
-    static final double DEFAULT_POINTS_MATCH_WIN = 1;
-    static final double DEFAULT_POINTS_MATCH_TIE = 0.5;
+    public static abstract class RoundBasedOptionsBuilder<T extends RoundBasedOptionsBuilder<?>> extends TournamentOptionsBuilder {
+        protected double pointsGameWin = DEFAULT_POINTS_GAME_WIN;
+        protected double pointsGameTie = DEFAULT_POINTS_GAME_TIE;
+        protected double pointsMatchWin = DEFAULT_POINTS_MATCH_WIN;
+        protected double pointsMatchTie = DEFAULT_POINTS_MATCH_TIE;
+
+        @SuppressWarnings("unchecked")
+        public T pointsGameWin(double pointsGameWin) {
+            this.pointsGameWin = pointsGameWin;
+            return (T)this;
+        }
+        
+        @SuppressWarnings("unchecked")
+        public T pointsGameTie(double pointsGameTie) {
+            this.pointsGameTie = pointsGameTie;
+            return (T)this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public T pointsMatchWin(double pointsMatchWin) {
+            this.pointsMatchWin = pointsMatchWin;
+            return (T)this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public T pointsMatchTie(double pointsMatchTie) {
+            this.pointsMatchTie = pointsMatchTie;
+            return (T)this;
+        }
+
+        @Override
+        public abstract RoundBasedOptions build();
+    }
+
+    private static final double DEFAULT_POINTS_GAME_WIN = 1;
+    private static final double DEFAULT_POINTS_GAME_TIE = 0;
+    private static final double DEFAULT_POINTS_MATCH_WIN = 1;
+    private static final double DEFAULT_POINTS_MATCH_TIE = 0.5;
     private static final int NUM_ENTRIES = 4;
 
     protected final double pointsGameWin,pointsGameTie,pointsMatchWin,pointsMatchTie;

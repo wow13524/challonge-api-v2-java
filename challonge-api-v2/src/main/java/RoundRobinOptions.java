@@ -27,35 +27,11 @@ public final class RoundRobinOptions extends RoundBasedOptions {
         }
     }
 
-    public static final class RoundRobinOptionsBuilder extends TournamentOptionsBuilder {
-        private double pointsGameWin = DEFAULT_POINTS_GAME_WIN;
-        private double pointsGameTie = DEFAULT_POINTS_GAME_TIE;
-        private double pointsMatchWin = DEFAULT_POINTS_MATCH_WIN;
-        private double pointsMatchTie = DEFAULT_POINTS_MATCH_TIE;
+    public static final class RoundRobinOptionsBuilder extends RoundBasedOptionsBuilder<RoundRobinOptionsBuilder> {
         private int iterations = DEFAULT_ITERATIONS;
         private Ranking ranking = DEFAULT_RANKING;
 
         private RoundRobinOptionsBuilder() {}
-
-        public RoundRobinOptionsBuilder pointsGameWin(double pointsGameWin) {
-            this.pointsGameWin = pointsGameWin;
-            return this;
-        }
-        
-        public RoundRobinOptionsBuilder pointsGameTie(double pointsGameTie) {
-            this.pointsGameTie = pointsGameTie;
-            return this;
-        }
-
-        public RoundRobinOptionsBuilder pointsMatchWin(double pointsMatchWin) {
-            this.pointsMatchWin = pointsMatchWin;
-            return this;
-        }
-
-        public RoundRobinOptionsBuilder pointsMatchTie(double pointsMatchTie) {
-            this.pointsMatchTie = pointsMatchTie;
-            return this;
-        }
 
         public RoundRobinOptionsBuilder iterations(int iterations) {
             this.iterations = iterations;
@@ -73,7 +49,7 @@ public final class RoundRobinOptions extends RoundBasedOptions {
         }
 
         @Override
-        public TournamentOptions build() {
+        public RoundRobinOptions build() {
             return new RoundRobinOptions(
                 this.pointsGameWin,
                 this.pointsGameTie,

@@ -46,7 +46,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
         }
 
         @Override
-        public TournamentOptions build() {
+        public DoubleEliminationOptions build() {
             return new DoubleEliminationOptions(
                 this.splitParticipants,
                 this.grandFinalsModifier

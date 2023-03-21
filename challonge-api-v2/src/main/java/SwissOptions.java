@@ -7,35 +7,11 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public final class SwissOptions extends RoundBasedOptions {
-     public static final class SwissOptionsBuilder extends TournamentOptionsBuilder {
-        private double pointsGameWin = DEFAULT_POINTS_GAME_WIN;
-        private double pointsGameTie = DEFAULT_POINTS_GAME_TIE;
-        private double pointsMatchWin = DEFAULT_POINTS_MATCH_WIN;
-        private double pointsMatchTie = DEFAULT_POINTS_MATCH_TIE;
+     public static final class SwissOptionsBuilder extends RoundBasedOptionsBuilder<SwissOptionsBuilder> {
         private double pointsBye = DEFAULT_POINTS_BYE;
         private int rounds = DEFAULT_ROUNDS;
 
         private SwissOptionsBuilder() {}
-
-        public SwissOptionsBuilder pointsGameWin(double pointsGameWin) {
-            this.pointsGameWin = pointsGameWin;
-            return this;
-        }
-        
-        public SwissOptionsBuilder pointsGameTie(double pointsGameTie) {
-            this.pointsGameTie = pointsGameTie;
-            return this;
-        }
-
-        public SwissOptionsBuilder pointsMatchWin(double pointsMatchWin) {
-            this.pointsMatchWin = pointsMatchWin;
-            return this;
-        }
-
-        public SwissOptionsBuilder pointsMatchTie(double pointsMatchTie) {
-            this.pointsMatchTie = pointsMatchTie;
-            return this;
-        }
 
         public SwissOptionsBuilder pointsBye(double pointsBye) {
             this.pointsBye = pointsBye;
@@ -48,7 +24,7 @@ public final class SwissOptions extends RoundBasedOptions {
         }
 
         @Override
-        public TournamentOptions build() {
+        public SwissOptions build() {
             return new SwissOptions(
                 this.pointsGameWin,
                 this.pointsGameTie,

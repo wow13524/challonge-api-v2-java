@@ -18,7 +18,7 @@ public final class FreeForAllOptions extends TournamentOptions {
         }
 
         @Override
-        public TournamentOptions build() {
+        public FreeForAllOptions build() {
             return new FreeForAllOptions(
                 this.maxParticipants
             );
