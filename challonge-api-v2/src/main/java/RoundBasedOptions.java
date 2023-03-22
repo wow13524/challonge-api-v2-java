@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 abstract class RoundBasedOptions extends TournamentOptions {
-    public static abstract class RoundBasedOptionsBuilder<T extends RoundBasedOptionsBuilder<?>> extends TournamentOptionsBuilder {
+    static abstract class RoundBasedOptionsBuilder<T extends RoundBasedOptionsBuilder<?>> extends TournamentOptionsBuilder {
         protected double pointsGameWin = DEFAULT_POINTS_GAME_WIN;
         protected double pointsGameTie = DEFAULT_POINTS_GAME_TIE;
         protected double pointsMatchWin = DEFAULT_POINTS_MATCH_WIN;
