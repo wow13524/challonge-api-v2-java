@@ -105,7 +105,6 @@ abstract class RoundBasedOptions extends TournamentOptions {
     }
 
     @SuppressWarnings("unchecked")
-    @SafeVarargs
     final ImmutableMap<String, Object> getOptions(Entry<String, Object>... additionalEntries) {
         Entry<String, Object>[] entries =
         new Entry[NUM_ENTRIES + additionalEntries.length];
