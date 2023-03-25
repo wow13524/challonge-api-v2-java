@@ -3,14 +3,18 @@ package main.java;
 final class EnumUtils {
     private EnumUtils() {};
 
+    interface SearchableEnum {
+        String getName();
+    }
+
     public interface StringComparator {
         boolean op(String a, String b);
     }
 
-    public static <T extends Enum<T>> T valueFromString(Class<T> enumClass, String string, StringComparator op) {
+    public static <T extends SearchableEnum> T valueFromString(Class<T> enumClass, String string, StringComparator op) {
         string = string.toLowerCase();
         for (T obj : enumClass.getEnumConstants()) {
-            if (op.op(string, obj.toString())) {
+            if (op.op(string, obj.getName())) {
                 return obj;
             }
         }
@@ -21,7 +25,7 @@ final class EnumUtils {
         ));
     }
 
-    public static <T extends Enum<T>> T valueFromString(Class<T> enumClass, String string) {
+    public static <T extends SearchableEnum> T valueFromString(Class<T> enumClass, String string) {
         return valueFromString(enumClass, string, String::equalsIgnoreCase);
     }
 }

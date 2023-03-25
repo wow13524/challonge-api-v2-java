@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public final class RoundRobinOptions extends RoundBasedOptions {
-    public enum Ranking {
+    public enum Ranking implements EnumUtils.SearchableEnum {
         MATCH_WINS("match wins"),
         GAME_WINS("game wins"),
         GAME_WIN_PERCENTAGE("game win percentage"),
@@ -22,7 +22,7 @@ public final class RoundRobinOptions extends RoundBasedOptions {
         }
 
         @Override
-        public String toString() {
+        public String getName() {
             return this.name;
         }
     }

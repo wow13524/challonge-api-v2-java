@@ -1,6 +1,6 @@
 package main.java;
 
-public enum Scope {
+public enum Scope implements EnumUtils.SearchableEnum {
     ME("me"),
     TOURNAMENTS_READ("tournaments:read"),
     TOURNAMENTS_WRITE("tournaments:write"),
@@ -19,7 +19,7 @@ public enum Scope {
     }
 
     @Override
-    public String toString() {
+    public String getName() {
         return this.name;
     }
 }

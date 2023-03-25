@@ -1,6 +1,6 @@
 package main.java;
 
-public enum ChallongeObjectType {
+public enum ChallongeObjectType implements EnumUtils.SearchableEnum {
     TOURNAMENT("tournament"),
     USER("user");
 
@@ -11,7 +11,7 @@ public enum ChallongeObjectType {
     }
 
     @Override
-    public String toString() {
+    public String getName() {
         return this.name;
     }
 }

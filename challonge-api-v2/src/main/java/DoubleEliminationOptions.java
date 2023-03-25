@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public final class DoubleEliminationOptions extends TournamentOptions {
-    public enum GrandFinalsModifier {
+    public enum GrandFinalsModifier implements EnumUtils.SearchableEnum {
         NONE(""),
         SKIP("skip"),
         SINGLE_MATCH("single match");
@@ -19,7 +19,7 @@ public final class DoubleEliminationOptions extends TournamentOptions {
         }
 
         @Override
-        public String toString() {
+        public String getName() {
             return this.name;
         }
     }

@@ -1,6 +1,6 @@
 package main.java;
 
-public enum TournamentType {
+public enum TournamentType implements EnumUtils.SearchableEnum {
     SINGLE_ELIMINATION(null, "single elimination"),
     DOUBLE_ELIMINATION("double_elimination_options", "double elimination"),
     ROUND_ROBIN("round_robin_options", "round robin"),
@@ -21,7 +21,7 @@ public enum TournamentType {
     }
 
     @Override
-    public String toString() {
+    public String getName() {
         return this.name;
     }
 }
