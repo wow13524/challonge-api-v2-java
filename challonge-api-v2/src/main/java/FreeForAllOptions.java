@@ -36,13 +36,13 @@ public final class FreeForAllOptions extends TournamentOptions {
 
     FreeForAllOptions(JSONObject json) throws ChallongeException {
         this(
-            (int)(long)TypeUtils.requireOptionalType(
+            Integer.parseInt(TypeUtils.requireOptionalType(
                 json,
                 "maxParticipants",
-                Long.class,
-                (long)DEFAULT_MAX_PARTICIPANTS
+                String.class,
+                DEFAULT_MAX_PARTICIPANTS+""
             )
-        );
+        ));
     }
 
     public static FreeForAllOptionsBuilder newBuilder() {
@@ -58,7 +58,7 @@ public final class FreeForAllOptions extends TournamentOptions {
         return new ImmutableMap<String, Object>(
             new SimpleImmutableEntry<String, Object>(
                 "max_participants",
-                maxParticipants
+                this.maxParticipants
             )
         );
     }

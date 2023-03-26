@@ -6,12 +6,12 @@ public enum TournamentType implements EnumUtils.SearchableEnum {
     ROUND_ROBIN("round_robin_options", "round robin"),
     SWISS("swiss_options", "swiss"),
     FREE_FOR_ALL("free_for_all_options", "free for all"),
-    LEADERBOARD(null, "leaderboard"),
+    /*LEADERBOARD(null, "leaderboard"), #Relevant options are not exposed through the API
     TIME_TRIAL(null, "time trial"),
     SINGLE_RACE(null, "sincle race"),
     LGC_TIMETRIAL(null, "lgc timetrial"),
     GRAND_PRIX(null, "grand_prix"),
-    LEAGUE(null, "league");
+    LEAGUE(null, "league")*/;
 
     public final String key,name;
     

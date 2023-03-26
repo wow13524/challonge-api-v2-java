@@ -103,12 +103,12 @@ public final class DoubleEliminationOptions extends TournamentOptions {
         return new ImmutableMap<String, Object>(
             new SimpleImmutableEntry<String, Object>(
                 "split_participants",
-                splitParticipants
+                this.splitParticipants
             ),
-            grandFinalsModifier == GrandFinalsModifier.NONE ? null :
+            this.grandFinalsModifier == GrandFinalsModifier.NONE ? null :
             new SimpleImmutableEntry<String, Object>(
                 "grand_finals_modifier",
-                grandFinalsModifier.name
+                this.grandFinalsModifier.name
             )
         );
     }
