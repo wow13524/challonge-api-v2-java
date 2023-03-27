@@ -19,7 +19,7 @@ final class EnumUtils {
             }
         }
         throw new IllegalArgumentException(String.format(
-            "No enum '%s' matching '%s'",
+            "No enum of class '%s' matching '%s'",
             enumClass.getName(),
             string
         ));
