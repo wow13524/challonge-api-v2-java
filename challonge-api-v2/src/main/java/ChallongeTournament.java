@@ -6,7 +6,7 @@ import main.java.Exceptions.ChallongeException;
 
 public class ChallongeTournament extends ChallongeObject {
     private boolean isPrivate;
-    private String description, name, url;
+    private String description, name, url, startsAt;
     private TournamentOptions tournamentOptions;
 
     ChallongeTournament(ChallongeApi api, JSONObject json) throws ChallongeException {
@@ -159,6 +159,10 @@ public class ChallongeTournament extends ChallongeObject {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getStartsAt() {
+        return this.startsAt;
     }
 
     public String getUrl() {
