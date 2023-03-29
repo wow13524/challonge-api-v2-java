@@ -69,6 +69,9 @@ public class ChallongeTournament extends ChallongeObject {
 
         this.tournamentOptions =
         ChallongeTournament.parseTournamentOptions(attributes, tournamentType);
+
+        JSONObject timestamps =
+        TypeUtils.requireType(attributes, "timestamps", JSONObject.class);
     }
 
     @SuppressWarnings("unchecked")
