@@ -58,7 +58,7 @@ public final class FreeForAllOptions extends TournamentOptions {
         return new ImmutableMap<String, Object>(
             new SimpleImmutableEntry<String, Object>(
                 "max_participants",
-                this.maxParticipants
+                this.maxParticipants+""
             )
         );
     }
