@@ -11,6 +11,7 @@ public final class RoundRobinOptions extends RoundBasedOptions {
         MATCH_WINS("match wins"),
         GAME_WINS("game wins"),
         GAME_WIN_PERCENTAGE("game win percentage"),
+        GAME_WIN_LOSS_DIFFERENCE("game w/l difference"),
         POINTS_SCORED("points scored"),
         POINTS_DIFFERENCE("points difference"),
         CUSTOM("custom");

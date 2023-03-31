@@ -18,7 +18,7 @@ public final class SwissOptions extends RoundBasedOptions {
             return this;
         }
 
-        public SwissOptionsBuilder rounds(int rounds) {
+        private SwissOptionsBuilder rounds(int rounds) {
             this.rounds = rounds;
             return this;
         }
