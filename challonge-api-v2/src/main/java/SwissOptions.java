@@ -18,10 +18,10 @@ public final class SwissOptions extends RoundBasedOptions {
             return this;
         }
 
-        private SwissOptionsBuilder rounds(int rounds) {
+        /*public SwissOptionsBuilder rounds(int rounds) {
             this.rounds = rounds;
             return this;
-        }
+        }*/
 
         @Override
         public SwissOptions build() {
