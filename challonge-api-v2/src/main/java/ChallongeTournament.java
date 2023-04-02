@@ -1,13 +1,17 @@
 package main.java;
 
+import java.time.Instant;
+
 import org.json.simple.JSONObject;
 
 import main.java.Exceptions.ChallongeException;
 
 public class ChallongeTournament extends ChallongeObject {
+
     private boolean isPrivate;
-    private String description, name, url, startsAt;
+    private String description, name, url;
     private TournamentOptions tournamentOptions;
+    private Instant createdAt, completedAt, startsAt, startedAt, updatedAt;
 
     ChallongeTournament(ChallongeApi api, JSONObject json) throws ChallongeException {
         super(
@@ -72,6 +76,46 @@ public class ChallongeTournament extends ChallongeObject {
 
         JSONObject timestamps =
         TypeUtils.requireType(attributes, "timestamps", JSONObject.class);
+        String createdAt = TypeUtils.requireOptionalType(
+            timestamps,
+            "createdAt",
+            String.class
+        );
+        String completedAt = TypeUtils.requireOptionalType(
+            timestamps,
+            "completedAt",
+            String.class
+        );
+        String startsAt = TypeUtils.requireOptionalType(
+            timestamps,
+            "startsAt",
+            String.class
+        );
+        String startedAt = TypeUtils.requireOptionalType(
+            timestamps,
+            "startedAt",
+            String.class
+        );
+        String updatedAt = TypeUtils.requireOptionalType(
+            timestamps,
+            "updatedAt",
+            String.class
+        );
+
+        this.createdAt =
+        createdAt == null ? null : Instant.parse(createdAt);
+
+        this.completedAt =
+        completedAt == null ? null : Instant.parse(completedAt);
+
+        this.startsAt =
+        startsAt == null ? null : Instant.parse(startsAt);
+
+        this.startedAt =
+        startedAt == null ? null : Instant.parse(startedAt);
+
+        this.updatedAt =
+        updatedAt == null ? null : Instant.parse(updatedAt);
     }
 
     @SuppressWarnings("unchecked")
@@ -164,8 +208,24 @@ public class ChallongeTournament extends ChallongeObject {
         return this.name;
     }
 
-    public String getStartsAt() {
+    public Instant getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public Instant getCompletedAt() {
+        return this.completedAt;
+    }
+
+    public Instant getStartsAt() {
         return this.startsAt;
+    }
+
+    public Instant getStartedAt() {
+        return this.startedAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return this.updatedAt;
     }
 
     public String getUrl() {
