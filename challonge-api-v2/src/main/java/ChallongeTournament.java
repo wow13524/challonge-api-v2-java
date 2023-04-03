@@ -51,6 +51,18 @@ public class ChallongeTournament extends ChallongeObject {
         this.isPrivate =
         TypeUtils.requireType(attributes, "private", Boolean.class);
 
+        this.notifyUponMatchesOpen = TypeUtils.requireType(
+            attributes,
+            "notifyUponMatchesOpen",
+            Boolean.class
+        );
+
+        this.notifyUponTournamentEnds = TypeUtils.requireType(
+            attributes,
+            "notifyUponTournamentEnds",
+            Boolean.class
+        );
+
         this.description =
         TypeUtils.requireType(attributes, "description", String.class);
 
