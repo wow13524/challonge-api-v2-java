@@ -141,7 +141,18 @@ public class ChallongeTournament extends ChallongeObject {
         attributes.put("private", this.isPrivate());
         //
         attributes.put("description", this.getDescription());
-        //
+
+        /*JSONObject notifications = new JSONObject();
+        notifications.put(
+            "upon_match_open",
+            this.getNotifyUponMatchesOpen()
+        );
+        notifications.put(
+            "upon_tournament_ends",
+            this.getNotifyUponTournamentEnds()
+        );
+        attributes.put("notifications", notifications);*/
+
         TournamentOptions options = this.getTournamentOptions();
         if (options.getTournamentType().key != null) {
             attributes.put(
@@ -210,6 +221,14 @@ public class ChallongeTournament extends ChallongeObject {
     public boolean isPrivate() {
         return this.isPrivate;
     }
+
+    /*public boolean getNotifyUponMatchesOpen() {
+        return this.notifyUponMatchesOpen;
+    }
+
+    public boolean getNotifyUponTournamentEnds() {
+        return this.notifyUponTournamentEnds;
+    }*/
 
     public String getDescription() {
         return this.description;
