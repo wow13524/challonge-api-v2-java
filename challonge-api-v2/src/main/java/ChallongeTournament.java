@@ -80,7 +80,7 @@ public class ChallongeTournament extends ChallongeObject {
             TournamentType.class,
             tournamentTypeString,
             String::startsWith
-            );
+        );
 
         this.tournamentOptions =
         ChallongeTournament.parseTournamentOptions(attributes, tournamentType);
