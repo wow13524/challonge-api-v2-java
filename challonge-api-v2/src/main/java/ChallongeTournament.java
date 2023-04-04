@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public class ChallongeTournament extends ChallongeObject {
-    private boolean isPrivate, notifyUponMatchesOpen, notifyUponTournamentEnds;
+    private boolean isPrivate;//, notifyUponMatchesOpen, notifyUponTournamentEnds;
     private String description, name, url;
     private TournamentOptions tournamentOptions;
     private Instant createdAt, completedAt, startsAt, startedAt, updatedAt;
@@ -51,7 +51,7 @@ public class ChallongeTournament extends ChallongeObject {
         this.isPrivate =
         TypeUtils.requireType(attributes, "private", Boolean.class);
 
-        this.notifyUponMatchesOpen = TypeUtils.requireType(
+        /*this.notifyUponMatchesOpen = TypeUtils.requireType(
             attributes,
             "notifyUponMatchesOpen",
             Boolean.class
@@ -61,7 +61,7 @@ public class ChallongeTournament extends ChallongeObject {
             attributes,
             "notifyUponTournamentEnds",
             Boolean.class
-        );
+        );*/
 
         this.description =
         TypeUtils.requireType(attributes, "description", String.class);
