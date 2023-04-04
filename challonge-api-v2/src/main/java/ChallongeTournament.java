@@ -87,26 +87,31 @@ public class ChallongeTournament extends ChallongeObject {
 
         JSONObject timestamps =
         TypeUtils.requireType(attributes, "timestamps", JSONObject.class);
+
         String createdAt = TypeUtils.requireOptionalType(
             timestamps,
             "createdAt",
             String.class
         );
+
         String completedAt = TypeUtils.requireOptionalType(
             timestamps,
             "completedAt",
             String.class
         );
+
         String startsAt = TypeUtils.requireOptionalType(
             timestamps,
             "startsAt",
             String.class
         );
+
         String startedAt = TypeUtils.requireOptionalType(
             timestamps,
             "startedAt",
             String.class
         );
+        
         String updatedAt = TypeUtils.requireOptionalType(
             timestamps,
             "updatedAt",
