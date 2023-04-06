@@ -144,7 +144,9 @@ public class ChallongeTournament extends ChallongeObject {
             this.getTournamentOptions().getTournamentType().name
         );
         attributes.put("private", this.isPrivate());
-        //
+        if (this.getStartsAt() != null) {
+            attributes.put("starts_at", this.getStartsAt().toString());
+        }
         attributes.put("description", this.getDescription());
 
         /*JSONObject notifications = new JSONObject();
@@ -215,6 +217,17 @@ public class ChallongeTournament extends ChallongeObject {
             "url"
         );
         this.url = url;
+        this.update();
+    }
+
+    public void setStartsAt(Instant startsAt) throws ChallongeException {
+        this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_WRITE);
+        TypeUtils.requireType(
+            startsAt,
+            Instant.class,
+            "startsAt"
+        );
+        this.startsAt = startsAt;
         this.update();
     }
 
