@@ -111,7 +111,7 @@ public class ChallongeTournament extends ChallongeObject {
             "startedAt",
             String.class
         );
-        
+
         String updatedAt = TypeUtils.requireOptionalType(
             timestamps,
             "updatedAt",
@@ -204,6 +204,17 @@ public class ChallongeTournament extends ChallongeObject {
             "name"
         );
         this.name = name;
+        this.update();
+    }
+
+    public void setURL(String url) throws ChallongeException {
+        this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_WRITE);
+        TypeUtils.requireType(
+            name,
+            String.class,
+            "url"
+        );
+        this.url = url;
         this.update();
     }
 
