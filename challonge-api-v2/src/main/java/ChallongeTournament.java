@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public class ChallongeTournament extends ChallongeObject {
-    private boolean isPrivate;//, notifyUponMatchesOpen, notifyUponTournamentEnds;
+    private boolean isPrivate, third_place_match, accept_attachments;//, notifyUponMatchesOpen, notifyUponTournamentEnds;
     private String description, name, url;
     private TournamentOptions tournamentOptions;
     private Instant createdAt, completedAt, startsAt, startedAt, updatedAt;
@@ -62,6 +62,20 @@ public class ChallongeTournament extends ChallongeObject {
             "notifyUponTournamentEnds",
             Boolean.class
         );*/
+
+        this.third_place_match = TypeUtils.requireOptionalType(
+            attributes,
+            "thirdPlaceMatch",
+            Boolean.class,
+            true
+        );
+
+        this.accept_attachments = TypeUtils.requireOptionalType(
+            attributes,
+            "acceptAttachments",
+            Boolean.class,
+            false
+        );
 
         this.description =
         TypeUtils.requireType(attributes, "description", String.class);
@@ -159,6 +173,17 @@ public class ChallongeTournament extends ChallongeObject {
             this.getNotifyUponTournamentEnds()
         );
         attributes.put("notifications", notifications);*/
+
+        JSONObject match_options = new JSONObject();
+        match_options.put(
+            "third_place_match",
+            this.getThirdPlaceMatch()
+        );
+        match_options.put(
+            "accept_attachments",
+            this.getAcceptAttachments()
+        );
+        attributes.put("match_options", match_options);
 
         TournamentOptions options = this.getTournamentOptions();
         if (options.getTournamentType().key != null) {
@@ -258,6 +283,14 @@ public class ChallongeTournament extends ChallongeObject {
     public boolean getNotifyUponTournamentEnds() {
         return this.notifyUponTournamentEnds;
     }*/
+
+    public boolean getThirdPlaceMatch() {
+        return this.third_place_match;
+    }
+
+    public boolean getAcceptAttachments() {
+        return this.accept_attachments;
+    }
 
     public String getDescription() {
         return this.description;
