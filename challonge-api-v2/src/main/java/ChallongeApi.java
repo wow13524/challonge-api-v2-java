@@ -65,13 +65,15 @@ final class ChallongeApi {
                 HttpResponse.BodyHandlers.ofString()
             );
 
-            return (JSONObject)this.jsonParser.parse(response.body());
+            try {
+                return (JSONObject)this.jsonParser.parse(response.body());
+            }
+            catch (ParseException e) {
+                throw new UnexpectedResponseException(e, response.statusCode());
+            }
         }
         catch (IOException | InterruptedException e) {
             throw new FailedRequestException(e);
-        }
-        catch (ParseException e) {
-            throw new UnexpectedResponseException(e);
         }
     }
 
@@ -130,12 +132,12 @@ final class ChallongeApi {
 
     @SuppressWarnings("unchecked")
     private JSONObject parseApiResponse(HttpResponse<String> response) throws ChallongeException {
+        System.out.println(response.body() + "\n");
         try {
             JSONObject parsedReponse = TypeUtils.requireType(
                 this.jsonParser.parse(response.body()),
                 JSONObject.class
             );
-            System.out.println(parsedReponse + "\n");
 
             if (parsedReponse.containsKey("errors")) {
                 Object errors = parsedReponse.get("errors");
@@ -154,7 +156,7 @@ final class ChallongeApi {
             return parsedReponse;
         }
         catch (ParseException | UnexpectedTypeException e) {
-            throw new UnexpectedResponseException(e);
+            throw new UnexpectedResponseException(e, response.statusCode());
         }
     }
 
