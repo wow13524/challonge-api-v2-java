@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public class ChallongeTournament extends ChallongeObject {
-    private boolean isPrivate, third_place_match, accept_attachments;//, notifyUponMatchesOpen, notifyUponTournamentEnds;
+    private boolean isPrivate, thirdPlaceMatch, acceptAttachments;//, notifyUponMatchesOpen, notifyUponTournamentEnds;
     private String description, name, url;
     private TournamentOptions tournamentOptions;
     private Instant createdAt, completedAt, startsAt, startedAt, updatedAt;
@@ -63,14 +63,14 @@ public class ChallongeTournament extends ChallongeObject {
             Boolean.class
         );*/
 
-        this.third_place_match = TypeUtils.requireOptionalType(
+        this.thirdPlaceMatch = TypeUtils.requireOptionalType(
             attributes,
             "thirdPlaceMatch",
             Boolean.class,
             true
         );
 
-        this.accept_attachments = TypeUtils.requireOptionalType(
+        this.acceptAttachments = TypeUtils.requireOptionalType(
             attributes,
             "acceptAttachments",
             Boolean.class,
@@ -256,6 +256,18 @@ public class ChallongeTournament extends ChallongeObject {
         this.update();
     }
 
+    public void setThirdPlaceMatch(boolean thirdPlaceMatch) throws ChallongeException {
+        this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_WRITE);
+        this.thirdPlaceMatch = thirdPlaceMatch;
+        this.update();
+    }
+
+    public void setAcceptAttachments(boolean acceptAttachments) throws ChallongeException {
+        this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_WRITE);
+        this.acceptAttachments = acceptAttachments;
+        this.update();
+    }
+
     public void setTournamentOptions(TournamentOptions tournamentOptions) throws ChallongeException {
         this.api.scopes.requirePermissionScope(Scope.TOURNAMENTS_WRITE);
         TypeUtils.requireType(
@@ -285,11 +297,11 @@ public class ChallongeTournament extends ChallongeObject {
     }*/
 
     public boolean getThirdPlaceMatch() {
-        return this.third_place_match;
+        return this.thirdPlaceMatch;
     }
 
     public boolean getAcceptAttachments() {
-        return this.accept_attachments;
+        return this.acceptAttachments;
     }
 
     public String getDescription() {
