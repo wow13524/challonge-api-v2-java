@@ -7,7 +7,8 @@ import org.json.simple.JSONObject;
 import main.java.Exceptions.ChallongeException;
 
 public class ChallongeTournament extends ChallongeObject {
-    private boolean isPrivate, thirdPlaceMatch, acceptAttachments, hideSeeds, sequentialPairings;//, notifyUponMatchesOpen, notifyUponTournamentEnds;
+    private boolean isPrivate, thirdPlaceMatch, acceptAttachments, open_signup, hideSeeds, sequentialPairings;//, notifyUponMatchesOpen, notifyUponTournamentEnds;
+    private int signup_cap, check_in_duration;
     private String description, name, url;
     private TournamentOptions tournamentOptions;
     private Instant createdAt, completedAt, startsAt, startedAt, updatedAt;
